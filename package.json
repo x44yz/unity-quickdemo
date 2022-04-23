@@ -1,0 +1,15 @@
+{
+  "name": "com.donglin.quickdemo",
+  "displayName": "QuickDemo",
+  "version": "1.0.0",
+  "unity": "2020.3",
+  "keywords": [
+    "unity",
+    "demo"
+  ],
+  "description": "Use Unity Timeline to create cinematic content, game-play sequences, audio sequences, and complex particle effects.",
+  "dependencies": {
+  },
+  "relatedPackages": {
+  }
+}
