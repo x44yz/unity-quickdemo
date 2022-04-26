@@ -7,6 +7,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace QuickDemo
 {
+    [AddComponentMenu("QuickDemo/AssetMgr")]
     public class AssetMgr : MonoBehaviour
     {
         public static AssetMgr Inst;
