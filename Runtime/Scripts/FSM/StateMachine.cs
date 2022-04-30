@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AI.FSM
+namespace QuickDemo.FSM
 {
     public class StateMachine<T> where T : IStateMachineOwner
     {

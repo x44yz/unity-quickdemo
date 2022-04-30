@@ -1,5 +1,5 @@
 
-namespace AI.FSM
+namespace QuickDemo.FSM
 {
     public interface IStateMachineOwner
     {
