@@ -39,6 +39,7 @@ namespace QuickDemo.FSM
                 {
                     if (ts.IsValid())
                     {
+                        ts.OnTransition();
                         Translate(ts.to);
                         break;
                     }

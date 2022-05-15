@@ -12,6 +12,8 @@ namespace QuickDemo
     {
         public static AssetMgr Inst;
 
+        public bool showLog = true;
+
         private Dictionary<string, AsyncOperationHandle> operationDictionary = new Dictionary<string, AsyncOperationHandle>();
 
         private void Awake()
@@ -44,7 +46,8 @@ namespace QuickDemo
                     return;
                 }
                 
-                Debug.Log($"[ASSET]LoadAssetAsync successed > {key}");
+                if (showLog)
+                    Debug.Log($"[ASSET]LoadAssetAsync successed > {key}");
                 if (cache)
                 {
                     operationDictionary[key] = opHandle;
