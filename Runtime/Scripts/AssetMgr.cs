@@ -77,6 +77,7 @@ namespace QuickDemo
                 }
                 else
                 {
+                    Debug.Log("[ASSET]failed inst obj > " + key);
                     callback?.Invoke(null);
                 }
             });
