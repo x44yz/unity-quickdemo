@@ -30,5 +30,38 @@ namespace QuickDemo
         {
             return Mathf.Approximately(v, 0f);
         }
+
+        public static Vector3 RandPos(Vector3 pt, float range)
+        {
+            float dist = Rand(0f, range);
+            float rot = Rand(0f, 360f);
+            var dir = Quaternion.AngleAxis(rot, Vector3.up) * Vector3.right;
+            return pt + dir.normalized * dist;
+        }
+
+        public static bool IsEqual(float v1, float v2)
+        {
+            return IsZero(v1 - v2);
+        }
+
+        public static float Rand(float maxExclusive)
+        {
+            return Rand(0f, maxExclusive);
+        }
+
+        public static float Rand(float minInclusive, float maxExclusive)
+        {
+            return UnityEngine.Random.Range(minInclusive, maxExclusive);
+        }
+
+        public static int Rand(int maxExclusive)
+        {
+            return Rand(0, maxExclusive);
+        }
+
+        public static int Rand(int minInclusive, int maxExclusive)
+        {
+            return UnityEngine.Random.Range(minInclusive, maxExclusive);
+        }
     }
 }

@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.donglin.quickdemo": {
+    "com.k021ng.quickdemo": {
       "version": "file:D:/Mygit/unity-quickdemo",
       "depth": 0,
       "source": "local",

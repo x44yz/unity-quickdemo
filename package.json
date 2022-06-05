@@ -1,15 +1,18 @@
 {
-  "name": "com.donglin.quickdemo",
+  "name": "com.k021ng.quickdemo",
   "displayName": "QuickDemo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "unity": "2020.3",
   "keywords": [
     "unity",
     "demo"
   ],
-  "description": "Use Unity Timeline to create cinematic content, game-play sequences, audio sequences, and complex particle effects.",
+  "description": "This package is to speed up the development of demo.",
   "dependencies": {
+    "com.unity.addressables": "1.18.19"
   },
-  "relatedPackages": {
+  "author": {
+    "name": "k021Ng",
+    "url": "https://github.com/k021Ng"
   }
 }

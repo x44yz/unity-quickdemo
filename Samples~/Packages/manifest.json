@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.donglin.quickdemo": "file:D:/Mygit/unity-quickdemo",
+    "com.k021ng.quickdemo": "file:D:/Mygit/unity-quickdemo",
     "com.unity.addressables": "1.18.19",
     "com.unity.collab-proxy": "1.13.5",
     "com.unity.ide.rider": "2.0.7",
