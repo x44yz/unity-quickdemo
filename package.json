@@ -14,5 +14,10 @@
   "author": {
     "name": "k021Ng",
     "url": "https://github.com/k021Ng"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/k021Ng/unity-quickdemo.git"
   }
 }
