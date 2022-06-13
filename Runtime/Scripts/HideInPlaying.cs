@@ -6,9 +6,14 @@ namespace QuickDemo
 {
     public class HideInPlaying : MonoBehaviour
     {
+        public bool hide = true;
+
         void Awake()
         {
-            gameObject.SetActive(false);
+            if (hide)
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 }

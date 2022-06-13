@@ -63,5 +63,23 @@ namespace QuickDemo
         {
             return UnityEngine.Random.Range(minInclusive, maxExclusive);
         }
+
+        // OnGUI
+        public static string GUIButtonText(string text, int size = 40)
+        {
+            return $"<size={size}>{text}</size>";
+        }
+
+        public static GUILayoutOption[] GUIButtonOptions(float height)
+        {
+            return new GUILayoutOption[]{
+                GUILayout.Height(height)
+            };
+        }
+
+        public static GUILayoutOption[] DefaultGUIButtonOptions
+        {
+            get { return GUIButtonOptions(70); }
+        }
     }
 }
