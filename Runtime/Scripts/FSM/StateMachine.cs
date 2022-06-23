@@ -33,6 +33,8 @@ namespace QuickDemo.FSM
             if (curState == null)
                 return;
 
+            curState.OnUpdate(dt);
+
             if (transitions.TryGetValue(curState, out List<Transition> tsList))
             {
                 foreach (var ts in tsList)
@@ -45,8 +47,6 @@ namespace QuickDemo.FSM
                     }
                 }
             }
-
-            curState.OnUpdate(dt);
         }
 
         public void Translate(Type tp)
