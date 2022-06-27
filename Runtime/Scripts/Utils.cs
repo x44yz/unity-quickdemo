@@ -1,6 +1,8 @@
 using System;
-using UnityEngine;
+using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+using UnityEngine;
 
 namespace QuickDemo
 {
@@ -93,6 +95,16 @@ namespace QuickDemo
         }
 
         // OnGUI
+        public static void GUILayoutLabel(string text, int size = 40, float height = 70)
+        {
+            GUILayout.Label(Utils.GUIText(text, size), GUIOptions(height));
+        }
+
+        public static bool GUILayoutButton(string text, int size = 40, float height = 70)
+        {
+            return GUILayout.Button(Utils.GUIText(text, size), GUIOptions(height));
+        }
+
         public static string GUIText(string text, int size = 40)
         {
             return $"<size={size}>{text}</size>";
@@ -131,6 +143,95 @@ namespace QuickDemo
                 parent = parent.parent;
             }
             return sb.ToString();
+        }
+
+        // Time
+        public static DateTime TimeStampStartTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        public static double GetTimeStamp()
+        {
+            TimeSpan ts = DateTime.UtcNow - TimeStampStartTime;
+            return ts.TotalSeconds;
+        }
+
+        // String
+        public static string ArrayToString<T>(T[] values, string separator = ",")
+        {
+            return string.Format("[{0}]", string.Join(separator, values.Select(x => x.ToString()).ToArray()));
+        }
+
+        // Path find
+        public static List<T> BFSFind<T>(IGraph graph, T from, T to, bool debugLog = false) where T : UnityEngine.Object
+        {
+            if (graph == null || from == null || to == null)
+            {
+                Debug.LogError("[BFS]]failed because graph is null");
+                return null;
+            }
+            if (from == null)
+            {
+                Debug.LogError("[BFS]]failed because from point is null");
+                return null;
+            }
+            if (to == null)
+            {
+                Debug.LogError("[BFS]]failed because to point is null");
+                return null;
+            }
+            if (!graph.HasPoint(from))
+            {
+                Debug.Log("[BFS]graph doesn't contain from point");
+                return null;
+            }
+            if (!graph.HasPoint(to))
+            {
+                Debug.Log("[BFS]graph doesn't contain to point");
+                return null;
+            }
+
+            var visited = new HashSet<T>();
+            visited.Add(from);
+
+            var frontiers = new Queue<T>();
+            frontiers.Enqueue(from);
+            
+            Dictionary<T, T> parents = new Dictionary<T, T>();
+            parents[from] = null;
+
+            while (frontiers.Count > 0)
+            {
+                T current = frontiers.Dequeue();
+        
+                if (current == to)
+                {
+                    break;
+                }
+
+                foreach (var neighbor in graph.GetNeighbors(current))
+                {
+                    if (visited.Contains(neighbor))
+                        continue;
+
+                    visited.Add(neighbor);
+                    frontiers.Enqueue(neighbor);
+                    parents[neighbor] = current;
+
+                    if (debugLog)
+                        Debug.Log($"[BFS]{neighbor.name} parent is {current.name}");
+                }
+            }
+
+            var path = new List<T>();
+            var parent = to;
+            while (parent != null)
+            {
+                path.Add(parent);
+                parent = parents[parent];
+            }
+            path.Reverse();
+
+            if (debugLog)
+                Debug.Log($"[BFS]path > {ArrayToString(path.ToArray())}");
+            return path;
         }
     }
 }
