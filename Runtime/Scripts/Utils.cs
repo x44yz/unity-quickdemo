@@ -8,6 +8,33 @@ namespace QuickDemo
 {
     public static class Utils
     {
+        public static Vector3 Truncate(this Vector3 v, float maxLength)
+        {
+            float maxLengthSquard = maxLength * maxLength;
+            if (v.sqrMagnitude <= maxLengthSquard)
+                return v;
+            v = v.normalized * maxLength;
+            return v;
+        }
+
+        public static Vector3 ZeroY(this Vector3 v)
+        {
+            v.y = 0f;
+            return v;
+        }
+
+        public static float ZeroYLength(this Vector3 v)
+        {
+            v.y = 0f;
+            return v.magnitude;
+        }
+
+        public static float ZeroYSquardLen(this Vector3 v)
+        {
+            v.y = 0f;
+            return v.sqrMagnitude;
+        }
+
         public static Vector3 Vector3ZeroY(Vector3 v3)
         {
             return Vector3Y(v3, 0);

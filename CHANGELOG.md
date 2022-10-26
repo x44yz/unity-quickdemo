@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this package will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [1.0.8] - 2022-10-26
+*Compatible with Unity 2020.3*
+### Changed
+- Update Utils Vector3 function
+
 ## [1.0.7] - 2022-07-12
 *Compatible with Unity 2020.3*
 ### Added
