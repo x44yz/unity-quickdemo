@@ -12,9 +12,6 @@ namespace QuickDemo.FSM
         public Dictionary<State, List<Transition>> transitions = new Dictionary<State, List<Transition>>();
         public Dictionary<Type, State> states = new Dictionary<Type, State>();
 
-        public bool isDebugLog = false;
-        public string debugLogPrefix = "";
-
         public StateMachine(T owner)
         {
             this.owner = owner;
@@ -25,7 +22,7 @@ namespace QuickDemo.FSM
             var tp = st.GetType();
             if (states.ContainsKey(tp))
             {
-                Debug.LogError("[FSM]failed Register because exist same state > " + tp);
+                Debug.LogError($"[FSM]{owner.FSMDebugLogPrefix} failed Register because exist same state > {tp}");
                 return;
             }
             states.Add(tp, st);
@@ -44,9 +41,9 @@ namespace QuickDemo.FSM
                 {
                     if (ts.IsValid())
                     {
-                        if (isDebugLog)
+                        if (owner.IsFSMDebug)
                         {
-                            Debug.Log($"[FSM]{debugLogPrefix}translate from {curState} to {ts.to}");
+                            Debug.Log($"[FSM]{owner.FSMDebugLogPrefix} translate from {curState} to {ts.to}");
                         }
 
                         ts.OnTransition();
@@ -62,7 +59,7 @@ namespace QuickDemo.FSM
             State st = null;
             if (!states.TryGetValue(tp, out st))
             {
-                Debug.LogError("[FSM]failed Translate because cant find state > " + tp);
+                Debug.LogError($"[FSM]{owner.FSMDebugLogPrefix} failed Translate because cant find state > {tp}");
                 return;
             }
             Translate(st);
@@ -90,15 +87,6 @@ namespace QuickDemo.FSM
                 transitions.Add(ts.from, tsList);
             }
             tsList.Add(ts);
-        }
-
-        public void SetDebug(bool isDebugLog, string debugLogPrefix = null)
-        {
-            this.isDebugLog = isDebugLog;
-            if (isDebugLog && debugLogPrefix != null)
-            {
-                this.debugLogPrefix = debugLogPrefix;
-            }
         }
     }
 }
