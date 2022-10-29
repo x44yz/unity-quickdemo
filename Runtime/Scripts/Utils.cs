@@ -90,7 +90,12 @@ namespace QuickDemo
 
         public static Vector3 RandPos(Vector3 pt, float range)
         {
-            float dist = Rand(0f, range);
+            return RandPos(pt, 0f, range);
+        }
+
+        public static Vector3 RandPos(Vector3 pt, float minRange, float maxRange)
+        {
+            float dist = Rand(minRange, maxRange);
             float rot = Rand(0f, 360f);
             var dir = Quaternion.AngleAxis(rot, Vector3.up) * Vector3.right;
             return pt + dir.normalized * dist;
