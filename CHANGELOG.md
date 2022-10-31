@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this package will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [1.0.10] - 2022-10-31
+*Compatible with Unity 2020.3*
+### Changed
+- Update Utils.RandPos
+
 ## [1.0.9] - 2022-10-29
 *Compatible with Unity 2020.3*
 ### Changed

@@ -95,9 +95,15 @@ namespace QuickDemo
 
         public static Vector3 RandPos(Vector3 pt, float minRange, float maxRange)
         {
+            return RandPos(pt, minRange, maxRange, Vector3.forward, 0f, 360f);
+        }
+
+        public static Vector3 RandPos(Vector3 pt, float minRange, float maxRange,
+                                    Vector3 fw, float minRot, float maxRot)
+        {
             float dist = Rand(minRange, maxRange);
-            float rot = Rand(0f, 360f);
-            var dir = Quaternion.AngleAxis(rot, Vector3.up) * Vector3.right;
+            float rot = Rand(minRot, maxRot);
+            var dir = Quaternion.AngleAxis(rot, Vector3.up) * fw;
             return pt + dir.normalized * dist;
         }
 
@@ -264,6 +270,12 @@ namespace QuickDemo
             if (debugLog)
                 Debug.Log($"[BFS]path > {ArrayToString(path.ToArray())}");
             return path;
+        }
+    
+        public static Color Alpha(this Color color, float alpha)
+        {
+            color.a = alpha;
+            return color;
         }
     }
 }
