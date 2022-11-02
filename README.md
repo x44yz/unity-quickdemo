@@ -8,5 +8,10 @@ https://github.com/k021Ng/unity-quickdemo.git
 ## Requirement
 Unity 2020.3 or later
 
+## TODO
+1.capture
+
 ## Issue  
 1.sometimes after quickdemo upgrade, VSCode cant reimport right csproject, please delete QuickDemo.csproj and QuickDemo.Editor.csproj files, then reimport package from unity.
+
+
