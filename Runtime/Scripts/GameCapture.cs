@@ -13,7 +13,6 @@ namespace QuickDemo
     #if UNITY_EDITOR
         private const string PREFKEY_AUTOCAPTURE_LASTTIME = "AutoCaptureLastTime";
 
-        public string storeKey = "PORJECT_NAME";
         public bool autoCapture = true;
         public int autoCaptreInterval = 24 * 3600;
         public bool logCapture = false;
@@ -24,12 +23,12 @@ namespace QuickDemo
 
         public static void StartCapture(bool log)
         {
-            var captureSettings = CaptureSettings.GetOrCreateSettings();
+            var captureSettings = CaptureSettings.instance;
             if (Directory.Exists(captureSettings.capturePath) == false)
                 Directory.CreateDirectory(captureSettings.capturePath);
 
             DateTime dt = DateTime.Now;
-            string filename = $"{captureSettings.capturePath}/Capture_{dt.Year}-{dt.Month}-{dt.Day}_{dt.Hour}-{dt.Minute}-{dt.Second}.png";
+            string filename = $"{captureSettings.capturePath}/{captureSettings.captureFilePrefix}_{dt.Year}-{dt.Month}-{dt.Day}_{dt.Hour}-{dt.Minute}-{dt.Second}.png";
             ScreenCapture.CaptureScreenshot(filename);
             if (log)
             {
@@ -41,7 +40,8 @@ namespace QuickDemo
         {
             DontDestroyOnLoad(gameObject);
 
-            atuoCaptureStoreKey = storeKey + PREFKEY_AUTOCAPTURE_LASTTIME;
+            var captureSettings = CaptureSettings.instance;
+            atuoCaptureStoreKey = captureSettings.storeKey + PREFKEY_AUTOCAPTURE_LASTTIME;
             int ts = EditorPrefs.GetInt(atuoCaptureStoreKey, 0);
             Debug.Log($"[CAPTURE]last auto capture timestamp > {ts}");
             autoCaptureCD = autoCaptreInterval - (((int)Utils.GetTimeStamp()) - ts);
