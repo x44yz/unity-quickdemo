@@ -1,38 +1,35 @@
 # Changelog
 All notable changes to this package will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [1.0.11] - 2022-11-03
+### Added
+- Capture function
+
 ## [1.0.10] - 2022-10-31
-*Compatible with Unity 2020.3*
 ### Changed
 - Update Utils.RandPos
 
 ## [1.0.9] - 2022-10-29
-*Compatible with Unity 2020.3*
 ### Changed
 - Update IStateMachineOwner debug log
 
 ## [1.0.8] - 2022-10-26
-*Compatible with Unity 2020.3*
 ### Changed
 - Update Utils Vector3 function
 
 ## [1.0.7] - 2022-07-12
-*Compatible with Unity 2020.3*
 ### Added
 - Add QuickDemoEditorUtils
 
 ## [1.0.6] - 2022-07-11
-*Compatible with Unity 2020.3*
 ### Added
 - Add CoroutineUtil
 
 ## [1.0.5] - 2022-06-27
-*Compatible with Unity 2020.3*
 ### Added
 - Add BFS path find algorithms
 
 ## [1.0.4] - 2022-06-23
-*Compatible with Unity 2020.3*
 ### Added
 - AssetMgr sync load asset
 ### Changed
@@ -40,12 +37,10 @@ All notable changes to this package will be documented in this file. The format 
 - FSM current state update order
 
 ## [1.0.3] - 2022-06-14
-*Compatible with Unity 2020.3*
 ### Changed
 - Utils GUI function
 
 ## [1.0.2] - 2022-06-05
-*Compatible with Unity 2020.3*
 ### Changed
 - Character animator
 

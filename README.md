@@ -8,8 +8,13 @@ https://github.com/k021Ng/unity-quickdemo.git
 ## Requirement
 Unity 2020.3 or later
 
+## Capture
+In order to record the development progress of the game, auto-capture function has been added. You can set the capture saving path in *ProjectSetting*, or add *GameCapture* component to save screenshots at regular intervals.
+![image](./ReadmeRaw~/Capture_ProjectSettings.png)
+![image](./ReadmeRaw~/Capture_GameCaptureComponent.png)
+
 ## TODO
-1.capture
+[x]capture
 
 ## Issue  
 1.sometimes after quickdemo upgrade, VSCode cant reimport right csproject, please delete QuickDemo.csproj and QuickDemo.Editor.csproj files, then reimport package from unity.
