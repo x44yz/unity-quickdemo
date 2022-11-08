@@ -14,7 +14,8 @@ namespace QuickDemo
         private const string PREFKEY_AUTOCAPTURE_LASTTIME = "AutoCaptureLastTime";
 
         public bool autoCapture = true;
-        public int autoCaptreInterval = 24 * 3600;
+        public int autoCaptureInterval = 24 * 3600;
+        public int autoCaptureDelay = 0;
         public bool logCapture = false;
 
         [Header("RUNTIME")]
@@ -44,7 +45,8 @@ namespace QuickDemo
             atuoCaptureStoreKey = captureSettings.storeKey + PREFKEY_AUTOCAPTURE_LASTTIME;
             int ts = EditorPrefs.GetInt(atuoCaptureStoreKey, 0);
             Debug.Log($"[CAPTURE]last auto capture timestamp > {ts}");
-            autoCaptureCD = autoCaptreInterval - (((int)Utils.GetTimeStamp()) - ts);
+            autoCaptureCD = autoCaptureInterval - (((int)Utils.GetTimeStamp()) - ts);
+            autoCaptureCD = Mathf.Max(autoCaptureCD, 0f) + autoCaptureDelay;
         }
 
         private void Update()
@@ -55,7 +57,7 @@ namespace QuickDemo
             autoCaptureCD -= Time.deltaTime;
             if (autoCaptureCD <= 0f)
             {
-                autoCaptureCD = autoCaptreInterval;
+                autoCaptureCD = autoCaptureInterval;
                 StartCapture(logCapture);
                 EditorPrefs.SetInt(atuoCaptureStoreKey, ((int)Utils.GetTimeStamp()));
             }
