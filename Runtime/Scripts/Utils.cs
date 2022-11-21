@@ -98,6 +98,16 @@ namespace QuickDemo
             return RandPos(pt, minRange, maxRange, Vector3.forward, 0f, 360f);
         }
 
+        public static Vector3 RandPos(Vector3 pt, float range, Vector3 fw, float rot)
+        {
+            return RandPos(pt, 0f, range, fw, -rot * 0.5f, rot * 0.5f);
+        }
+
+        public static Vector3 RandPos(Vector3 pt, float minRange, float maxRange, Vector3 fw, float rot)
+        {
+            return RandPos(pt, minRange, maxRange, fw, -rot * 0.5f, rot * 0.5f);
+        }
+
         public static Vector3 RandPos(Vector3 pt, float minRange, float maxRange,
                                     Vector3 fw, float minRot, float maxRot)
         {
