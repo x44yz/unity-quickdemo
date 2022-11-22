@@ -175,7 +175,7 @@ namespace QuickDemo
             get { return GUIOptions(70); }
         }
 
-        public static StringBuilder sb = new StringBuilder();
+        private static StringBuilder sb = new StringBuilder();
         public static string GetGameObjectPath(GameObject obj)
         {
             if (obj == null)
@@ -286,6 +286,22 @@ namespace QuickDemo
         {
             color.a = alpha;
             return color;
+        }
+
+        public static string GetHierarchyPath(Transform tf)
+        {
+            sb.Clear();
+            sb.Append(tf.name);
+
+            var parent = tf.parent;
+            while (parent)
+            {
+                sb.Insert(0, "\\");
+                sb.Insert(0, parent.name);
+                parent = parent.parent;
+            }
+
+            return sb.ToString();
         }
     }
 }
