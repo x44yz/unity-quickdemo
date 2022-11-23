@@ -303,5 +303,20 @@ namespace QuickDemo
 
             return sb.ToString();
         }
+
+        public static T GetComponentOnlyInParent<T>(Component component) where T : Component
+        {
+            var parent = component.transform.parent;
+            while (parent != null)
+            {
+                var t = parent.GetComponent<T>();
+                if (t != null)
+                {
+                    return t;
+                }
+                parent = parent.parent;
+            }
+            return null;
+        }
     }
 }

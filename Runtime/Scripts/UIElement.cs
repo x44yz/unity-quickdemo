@@ -11,6 +11,8 @@ namespace QuickDemo
         Button,
         Text,
         Image,
+        UIWidget,
+        GameObject,
     }
 
     public class UIElement : MonoBehaviour
@@ -27,6 +29,10 @@ namespace QuickDemo
                 return UIElementType.Text;
             else if (tp == typeof(Image))
                 return UIElementType.Image;
+            else if (tp == typeof(UIWidget))
+                return UIElementType.UIWidget;
+            else if (tp == typeof(GameObject))
+                return UIElementType.GameObject;
             else
                 Debug.LogError($"[UI]not implement objtype {tp} to element type");
             return UIElementType.None;
@@ -53,6 +59,10 @@ namespace QuickDemo
                     ret = GetComponent<Text>();
                 else if (elementType == UIElementType.Image)
                     ret = GetComponent<Image>();
+                else if (elementType == UIElementType.UIWidget)
+                    ret = GetComponent<UIWidget>();
+                else if (elementType == UIElementType.GameObject)
+                    ret = gameObject;
                 
                 if (ret == null)
                     Debug.LogError($"[UI]not implement elementType > {elementType} at {Utils.GetHierarchyPath(gameObject.transform)}");

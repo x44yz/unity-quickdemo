@@ -65,8 +65,14 @@ namespace QuickDemo
                 // NOTE:
                 // if contain other UIWidget, dont cache its UIElements
                 // TODO: performance optimize
-                if (t.GetComponentInParent<UIWidget>() != this)
+                var tw = Utils.GetComponentOnlyInParent<UIWidget>(t);
+                // if (tw != null && tw.gameObject == t.gameObject)
+                //     tw = null;
+                if (tw != this)
+                {
+                    // Debug.Log($"[UI]ignore cache because had other widget parent > {Utils.GetHierarchyPath(tw.transform)}");
                     continue;
+                }
 
                 if (t.obj == null)
                 {
@@ -126,6 +132,7 @@ namespace QuickDemo
 
                 if (GUILayout.Button("CHECK"))
                 {
+                    tmpElements.Clear();
                     string err = widget.CacheUIElements(tmpElements, true);
                     if (string.IsNullOrEmpty(err) == false)
                     {
