@@ -1,7 +1,7 @@
 {
   "name": "com.k021ng.quickdemo",
   "displayName": "QuickDemo",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "unity": "2020.3",
   "keywords": [
     "unity",
@@ -19,5 +19,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/k021Ng/unity-quickdemo.git"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "ProjectTemplate",
+      "description": "This template contains a set of utility class for project.",
+      "path": "Samples~/Assets/ProjectTemplate"
+    }
+  ]
 }
