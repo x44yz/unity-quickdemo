@@ -13,6 +13,7 @@ namespace QuickDemo
         Image,
         UIWidget,
         GameObject,
+        Slider,
     }
 
     public class UIElement : MonoBehaviour
@@ -33,6 +34,8 @@ namespace QuickDemo
                 return UIElementType.UIWidget;
             else if (tp == typeof(GameObject))
                 return UIElementType.GameObject;
+            else if (tp == typeof(Slider))
+                return UIElementType.Slider;
             else
                 Debug.LogError($"[UI]not implement objtype {tp} to element type");
             return UIElementType.None;
@@ -63,6 +66,8 @@ namespace QuickDemo
                     ret = GetComponent<UIWidget>();
                 else if (elementType == UIElementType.GameObject)
                     ret = gameObject;
+                else if (elementType == UIElementType.Slider)
+                    ret = GetComponent<Slider>();
                 
                 if (ret == null)
                     Debug.LogError($"[UI]not implement elementType > {elementType} at {Utils.GetHierarchyPath(gameObject.transform)}");
