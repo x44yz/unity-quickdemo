@@ -318,5 +318,15 @@ namespace QuickDemo
             }
             return null;
         }
+
+        public static void SetLayerRecursively (this UnityEngine.GameObject root, int layer)
+        {
+            root.gameObject.layer = layer;
+            for (int i = 0; i < root.transform.childCount; ++i)
+            {
+                var ch = root.transform.GetChild(i);
+                SetLayerRecursively(ch.gameObject, layer);
+            }
+        }
     }
 }
