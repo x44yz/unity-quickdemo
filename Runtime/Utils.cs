@@ -201,11 +201,116 @@ namespace QuickDemo
             return ts.TotalSeconds;
         }
 
-        // String
+#region STRING
         public static string ArrayToString<T>(T[] values, string separator = ",")
         {
             return string.Format("[{0}]", string.Join(separator, values.Select(x => x.ToString()).ToArray()));
         }
+
+        public static float ToFloat(string str, float defaultValue = 0f)
+        {
+            if (string.IsNullOrEmpty(str) || !float.TryParse(str, out float value))
+            {
+                return defaultValue;
+            }
+            return value;
+        }
+
+        public static int ToInt(string str, int defaultValue = 0)
+        {
+            if (string.IsNullOrEmpty(str) || !int.TryParse(str, out int value))
+            {
+                return defaultValue;
+            }
+            return value;
+        }
+        public static uint ToUInt(string str, uint defaultValue = 0)
+        {
+            if (string.IsNullOrEmpty(str) || !uint.TryParse(str, out uint value))
+            {
+                return defaultValue;
+            }
+            return value;
+        }
+        public static bool ToBool(string str, bool defaultValue = false)
+        {
+            if (str.Equals("FALSE") || str.Equals("0"))
+            {
+                return false;
+            }
+            if (str.Equals("TRUE") || str.Equals("1"))
+            {
+                return true;
+            }
+
+            if (string.IsNullOrEmpty(str) || !bool.TryParse(str, out var value))
+            {
+                return defaultValue;
+            }
+            return value;
+        }
+
+        public static uint[] ToUIntArray(string str, char splitChar = ';')
+        {
+            uint[] result;
+            if (string.IsNullOrEmpty(str))
+            {
+                result = new uint[0];
+            }
+            else
+            {
+                var strResult = str.Split(new char[]{splitChar}, StringSplitOptions.RemoveEmptyEntries);
+                result = new uint[strResult.Length];
+                for (var i = 0; i < strResult.Length; i++)
+                {
+                    result[i] = ToUInt(strResult[i]);
+                }
+            }
+            return result;
+        }
+
+        public static string FromUIntArray(uint[] values, char splitChar = ';')
+        {
+            if (values == null || values.Length == 0)
+                return string.Empty;
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < values.Length; ++i)
+            {
+                sb.Append(values[i]);
+                if (i + 1 < values.Length)
+                    sb.Append(splitChar);
+            }
+            return sb.ToString();
+        }
+
+        public static List<uint> ToUIntList(string str, char splitChar = ';')
+        {
+            uint[] array = ToUIntArray(str, splitChar);
+            List<uint> ulist = new List<uint>();
+            if (array != null && array.Length > 0)
+            {
+                for (int i = 0; i < array.Length; ++i)
+                {
+                    ulist.Add(array[i]);
+                }
+            }
+            return ulist;
+        }
+
+        public static string FromUIntList(List<uint> values, char splitChar = ';')
+        {
+            if (values == null || values.Count == 0)
+                return string.Empty;
+            
+            uint[] array = new uint[values.Count];
+            for (int i = 0; i < values.Count; ++i)
+            {
+                array[i] = values[i];
+            }
+            return FromUIntArray(array, splitChar);
+        }
+#endregion // STRING
 
         // Path find
         public static List<T> BFSFind<T>(IGraph graph, T from, T to, bool debugLog = false) where T : UnityEngine.Object
