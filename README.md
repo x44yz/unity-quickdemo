@@ -18,6 +18,8 @@ In order to record the development progress of the game, auto-capture function h
 [+]tutorial  
 
 ## Issue  
-1.sometimes after quickdemo upgrade, VSCode cant reimport right csproject, please delete QuickDemo.csproj and QuickDemo.Editor.csproj files, then reimport package from unity.
+> After quickdemo upgrade sometimes, VSCode cant reimport right csproject.  
+Please delete QuickDemo.csproj and QuickDemo.Editor.csproj files, then reimport package from unity.  
+If not work, please find menu "Unity>Edit>Preferences>External Tools", then click "Regenerate project files".
 
 
