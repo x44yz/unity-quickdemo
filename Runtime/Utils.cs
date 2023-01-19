@@ -298,6 +298,26 @@ namespace QuickDemo
             return ulist;
         }
 
+        public static T ToEnum<T>(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                Debug.LogError($"[UTILS]failed ToEnum because str is null");
+                return default(T);
+            }
+
+            Type enumType = typeof(T);
+            try
+            {
+                return (T)Enum.Parse(enumType, str);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[UTILS]ToEnum {enumType}-{str} exception > {ex}");
+                return default(T);
+            }
+        }
+
         public static string FromUIntList(List<uint> values, char splitChar = ';')
         {
             if (values == null || values.Count == 0)
