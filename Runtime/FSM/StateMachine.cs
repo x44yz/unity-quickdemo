@@ -54,6 +54,11 @@ namespace QuickDemo.FSM
             }
         }
 
+        public void Translate<T>() where T : FSM.State 
+        {
+            Translate(typeof(T));
+        }
+
         public void Translate(Type tp)
         {
             State st = null;
