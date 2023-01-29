@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
@@ -451,6 +452,31 @@ namespace QuickDemo
             {
                 var ch = root.transform.GetChild(i);
                 SetLayerRecursively(ch.gameObject, layer);
+            }
+        }
+
+        public static List<T> ObjToList<T>(object obj)
+        {
+            switch (obj)
+            {
+                case List<T> list:
+                    // we passed a list, so just return it as is
+                    return list;
+
+                case IEnumerable<T> genericEnumerable:
+                    // we passed a generic sequence, and items type is what we need
+                    return genericEnumerable.ToList();
+
+                case IEnumerable enumerable:
+                    // we passed some sequence, and we don't know, what is the type of any particular item;
+                    // using OfType<T> instead of Cast<T> allows to pass sequences that
+                    // contain items with different types
+                    return enumerable.OfType<T>().ToList();
+
+                default:
+                    // we passed none of above;
+                    // just return empty list
+                    return new List<T>(0);
             }
         }
     }

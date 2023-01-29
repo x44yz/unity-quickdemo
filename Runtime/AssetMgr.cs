@@ -106,6 +106,41 @@ namespace QuickDemo
             }
         }
 
+        public List<T> LoadAssets<T>(string key, bool cache = true) where T : UnityEngine.Object
+        {
+            AsyncOperationHandle opHandle;
+            if (operationDictionary.TryGetValue(key, out opHandle))
+            {
+                if (showLog)
+                {
+                    Debug.Log($"[ASSET]LoadAsset from cache successed > {key}");
+                }
+                return Utils.ObjToList<T>(opHandle.Result);
+            }
+
+            opHandle = Addressables.LoadAssets<T>(key, null);
+            opHandle.WaitForCompletion();
+        
+            if (opHandle.Status == AsyncOperationStatus.Succeeded)
+            {
+                if (showLog)
+                {
+                    Debug.Log($"[ASSET]LoadAsset successed > {key}");
+                }
+
+                if (cache)
+                {
+                    operationDictionary[key] = opHandle;
+                }
+                return Utils.ObjToList<T>(opHandle.Result);
+            }
+            else
+            {
+                Addressables.Release(opHandle);
+                return new List<T>(){default(T)};
+            }
+        }
+
         public static void InstGameObjectAsync(string key, Action<GameObject> callback)
         {
             AssetMgr.Inst.LoadAssetAsync<GameObject>(key, (x)=>{
@@ -131,6 +166,37 @@ namespace QuickDemo
             }
             Debug.Log("[ASSET]failed inst obj > " + key);
             return null;
+        }
+
+        public static Sprite LoadSprite(string key)
+        {
+            if (key.Contains("["))
+            {
+                var keys = key.Split('[');
+                if (keys.Length != 2)
+                {
+                    Debug.LogError($"[ASSET]not support format > {key}");
+                    return null;
+                }
+
+                var kk = AssetMgr.Inst.LoadAssets<Sprite>(keys[0]);
+                if (kk == null)
+                {
+                    Debug.LogError($"[ASSET]failed load assets > {keys[0]}");
+                    return null;
+                }
+
+                var matchName = keys[1].Split(']')[0];
+                foreach (var k in kk)
+                {
+                    if (k.name == matchName)
+                        return k;
+                }
+                Debug.LogError($"[ASSET]failed load assets > {key}");
+                return null;
+            }
+            // default
+            return AssetMgr.Inst.LoadAsset<Sprite>(key);
         }
     }
 }
