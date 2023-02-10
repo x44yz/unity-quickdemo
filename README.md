@@ -3,7 +3,7 @@ This package is to speed up demo development.
 
 ## Installation
 Add git url from unity package manager:  
-https://github.com/k021Ng/unity-quickdemo.git
+https://github.com/dongl1n4444/unity-quickdemo.git
 
 ## Requirement
 Unity 2020.3 or later

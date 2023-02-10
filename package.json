@@ -1,5 +1,5 @@
 {
-  "name": "com.k021ng.quickdemo",
+  "name": "com.dongl1n.quickdemo",
   "displayName": "QuickDemo",
   "version": "1.0.15",
   "unity": "2020.3",
@@ -12,13 +12,13 @@
     "com.unity.addressables": "1.18.19"
   },
   "author": {
-    "name": "k021Ng",
-    "url": "https://github.com/k021Ng"
+    "name": "dongl1n",
+    "url": "https://github.com/dongl1n4444"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/k021Ng/unity-quickdemo.git"
+    "url": "https://github.com/dongl1n4444/unity-quickdemo.git"
   },
   "samples": [
     {
