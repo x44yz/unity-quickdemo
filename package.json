@@ -22,9 +22,9 @@
   },
   "samples": [
     {
-      "displayName": "ProjectTemplate",
+      "displayName": "Template",
       "description": "This template contains a set of utility class for project.",
-      "path": "Samples~/Assets/ProjectTemplate"
+      "path": "Samples~/Assets/Template"
     }
   ]
 }
