@@ -1,7 +1,7 @@
 {
   "name": "com.dongl1n.quickdemo",
   "displayName": "QuickDemo",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "unity": "2020.3",
   "keywords": [
     "unity",
@@ -9,7 +9,8 @@
   ],
   "description": "This package is to speed up the development of demo.",
   "dependencies": {
-    "com.unity.addressables": "1.18.19"
+    "com.unity.addressables": "1.18.19",
+    "com.unity.textmeshpro": "3.0.6"
   },
   "author": {
     "name": "dongl1n",

@@ -6,7 +6,7 @@ using UnityEditor;
 
 public class PackageEditor
 {
-    [MenuItem("Tool/Copy Package")]  
+    [MenuItem("Tools/Copy Package")]  
     public static void CopyPackage()
     {
         var srcFolder = Application.dataPath + "/Package";

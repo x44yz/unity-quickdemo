@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace QuickDemo
 {
@@ -14,6 +15,7 @@ namespace QuickDemo
         UIWidget,
         GameObject,
         Slider,
+        TMPText,
     }
 
     public class UIElement : MonoBehaviour
@@ -36,6 +38,8 @@ namespace QuickDemo
                 return UIElementType.GameObject;
             else if (tp == typeof(Slider))
                 return UIElementType.Slider;
+            else if (tp == typeof(TMP_Text))
+                return UIElementType.TMPText;
             else
                 Debug.LogError($"[UI]not implement objtype {tp} to element type");
             return UIElementType.None;
@@ -68,6 +72,8 @@ namespace QuickDemo
                     ret = gameObject;
                 else if (elementType == UIElementType.Slider)
                     ret = GetComponent<Slider>();
+                else if (elementType == UIElementType.TMPText)
+                    ret = GetComponent<TMP_Text>();
                 
                 if (ret == null)
                     Debug.LogError($"[UI]not implement elementType > {elementType} at {Utils.GetHierarchyPath(gameObject.transform)}");
