@@ -217,6 +217,34 @@ namespace QuickDemo
             return value;
         }
 
+        public static T ToVal<T>(string str, T defaultVal)
+        {
+            if (string.IsNullOrEmpty(str))
+                return defaultVal;
+
+            return (T)Convert.ChangeType(str, typeof(T));
+        }
+
+        public static T[] ToArray<T>(string str, char split = ';')
+        {
+            T[] result;
+            if (string.IsNullOrEmpty(str))
+            {
+                result = new T[0];
+            }
+            else
+            {
+                var strResult = str.Split(new char[]{split}, 
+                    StringSplitOptions.RemoveEmptyEntries);
+                result = new T[strResult.Length];
+                for (var i = 0; i < strResult.Length; i++)
+                {
+                    result[i] = ToVal<T>(strResult[i], default(T));
+                }
+            }
+            return result;
+        }
+
         public static int ToInt(string str, int defaultValue = 0)
         {
             if (string.IsNullOrEmpty(str) || !int.TryParse(str, out int value))
@@ -225,6 +253,12 @@ namespace QuickDemo
             }
             return value;
         }
+
+        public static int[] ToIntArray(string str, char split = ';')
+        {
+            return ToArray<int>(str, split);
+        }
+
         public static uint ToUInt(string str, uint defaultValue = 0)
         {
             if (string.IsNullOrEmpty(str) || !uint.TryParse(str, out uint value))
@@ -233,6 +267,7 @@ namespace QuickDemo
             }
             return value;
         }
+
         public static bool ToBool(string str, bool defaultValue = false)
         {
             if (str.Equals("FALSE") || str.Equals("0"))
@@ -288,15 +323,7 @@ namespace QuickDemo
         public static List<uint> ToUIntList(string str, char splitChar = ';')
         {
             uint[] array = ToUIntArray(str, splitChar);
-            List<uint> ulist = new List<uint>();
-            if (array != null && array.Length > 0)
-            {
-                for (int i = 0; i < array.Length; ++i)
-                {
-                    ulist.Add(array[i]);
-                }
-            }
-            return ulist;
+            return array.ToList();
         }
 
         public static T ToEnum<T>(string str)
@@ -317,6 +344,23 @@ namespace QuickDemo
                 Debug.LogError($"[UTILS]ToEnum {enumType}-{str} exception > {ex}");
                 return default(T);
             }
+        }
+
+        public static T[] ToEnumArray<T>(string str, char split = ';')
+        {
+            T[] result;
+            if (string.IsNullOrEmpty(str))
+                result = new T[0];
+            else
+            {
+                var strResult = str.Split(split);
+                result = new T[strResult.Length];
+                for (var i = 0; i < strResult.Length; i++)
+                {
+                    result[i] = Utils.ToEnum<T>(strResult[i]);
+                }
+            }
+            return result;
         }
 
         public static string FromUIntList(List<uint> values, char splitChar = ';')
