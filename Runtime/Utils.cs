@@ -208,6 +208,12 @@ namespace QuickDemo
             return string.Format("[{0}]", string.Join(separator, values.Select(x => x.ToString()).ToArray()));
         }
 
+        public static string[] ToStrArray(string str, char split = ';')
+        {
+            var rt = str.Split(new char[]{split}, StringSplitOptions.RemoveEmptyEntries);
+            return rt;
+        }
+
         public static float ToFloat(string str, float defaultValue = 0f)
         {
             if (string.IsNullOrEmpty(str) || !float.TryParse(str, out float value))
