@@ -11,9 +11,6 @@ public class InputSystem : MonoBehaviour
 
     [Header("RUNTIME")]
     public Vector3? clickDownWPos;
-    public List<UIWidget> blockUIs = new List<UIWidget>();
-
-    public bool isBlockByUI => blockUIs.Count > 0;
 
     public void Init()
     {
@@ -161,17 +158,4 @@ public class InputSystem : MonoBehaviour
     //         }
     //     }
     // }
-
-    public void BlockByUI(UIWidget ui, bool v)
-    {
-        if (v && blockUIs.Contains(ui) == false)
-        {
-            blockUIs.Add(ui);
-        }
-
-        if (v == false)
-        {
-            blockUIs.Remove(ui);
-        }
-    }
 }

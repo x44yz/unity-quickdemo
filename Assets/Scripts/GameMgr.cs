@@ -6,7 +6,6 @@ public class GameMgr : MonoBehaviour
 {
     public static GameMgr Inst;
 
-    public AssetMgr sAsset;
     public ResSystem sRes;
     public InputSystem sInput;
     public TimeSystem sTime;

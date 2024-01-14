@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class AssetMgr : MonoBehaviour
+public class AssetMgr : MonoSingleton<AssetMgr>
 {
     public bool showLog = true;
 

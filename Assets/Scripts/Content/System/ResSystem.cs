@@ -5,8 +5,6 @@ using TMPro;
 
 public class ResSystem : MonoBehaviour
 {
-    public AssetMgr sAsset => GameMgr.Inst.sAsset;
-
     public List<ItemCfg> itemCfgs;
 
     public void Init()
@@ -14,12 +12,12 @@ public class ResSystem : MonoBehaviour
         // if (defaultSpr == null)
         //     Debug.LogError("default spr is null");
 
-        itemCfgs = sAsset.LoadAssets<ItemCfg>("items", false);
+        itemCfgs = AssetMgr.Inst.LoadAssets<ItemCfg>("items", false);
     }
 
     public List<T> LoadAssets<T>(string key, bool cache = true) where T : UnityEngine.Object
     {
-        return sAsset.LoadAssets<T>(key, cache);
+        return AssetMgr.Inst.LoadAssets<T>(key, cache);
     }
 
     public ItemCfg GetItemCfg(ItemId id)
