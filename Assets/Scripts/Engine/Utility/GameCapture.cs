@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-[AddComponentMenu("QuickDemo/GameCapture")]
+[AddComponentMenu("Tools/GameCapture")]
 public class GameCapture : MonoBehaviour
 {
 #if UNITY_EDITOR
@@ -73,7 +73,7 @@ public class GameCaptureEditor
     // F1 … F2 - F keys
     // HOME,END,PGUP,PGDN
     // letter: - _ + letter, like "_g"
-    [MenuItem("QuickDemo/GameCapture _#q", false)]
+    [MenuItem("Tools/GameCapture _#q", false)]
     public static void StartCapture()
     {
         GameCapture.StartCapture(true);
