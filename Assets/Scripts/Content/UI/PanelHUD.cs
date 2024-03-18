@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PanelHUD : UIWidget
 {
+    public static GameMgr game => GameMgr.Inst;
+
     public TMP_Text txtPaused;
 
     public override void Init()

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class QueueLine : MonoBehaviour
 {
@@ -46,6 +48,7 @@ public class QueueLine : MonoBehaviour
         return subPs[idx];
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         // points = GetComponentsInChildren<Point>();
@@ -70,4 +73,5 @@ public class QueueLine : MonoBehaviour
             }
         }
     }
+#endif
 }

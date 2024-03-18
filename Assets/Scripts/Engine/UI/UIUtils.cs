@@ -72,17 +72,4 @@ public static class UIUtils
         obj.SetActive(true);
         return obj.GetComponent<T>();
     }
-
-    public static string DDHHMM(int mins)
-    {
-        int d = mins / Defs.ONE_DAY_MINS;
-        mins -= d * Defs.ONE_DAY_MINS;
-        int h = mins / Defs.ONE_HOUR_MINS;
-        mins -= h * Defs.ONE_HOUR_MINS;
-        string str = "";
-        if (d > 0) str += $"{d}d";
-        if (h > 0) str += $"{h}h";
-        str += $"{mins}m";
-        return str;
-    }
 }

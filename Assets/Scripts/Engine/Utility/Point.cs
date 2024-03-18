@@ -8,7 +8,7 @@ using NaughtyAttributes;
 public class Point : MonoBehaviour
 {
     public static int POINT_UID_GEN = 1000;
-    public static List<Point> points = new List<Point>();
+    public static List<Point> all = new List<Point>();
 
     public PointId id;
     public Color color = Color.red;
@@ -16,6 +16,7 @@ public class Point : MonoBehaviour
     [Header("RUNTIME")]
     public int uid;
     public Vector3 pos => transform.position;
+    public Vector3 fwd => transform.forward;
 
     [Button("Auto Name", EButtonEnableMode.Editor)]
     private void AutoName()
@@ -26,17 +27,17 @@ public class Point : MonoBehaviour
     private void Awake()
     {
         uid = POINT_UID_GEN++;
-        points.Add(this);
+        all.Add(this);
     }
 
     private void OnDestroy()
     {
-        points.Remove(this);
+        all.Remove(this);
     }
 
     public static Point GetPoint(PointId pid, bool log = false)
     {
-        foreach (var p in points)
+        foreach (var p in all)
         {
             if (p.id == pid)
                 return p;

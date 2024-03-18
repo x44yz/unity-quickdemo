@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+#if UNITY_EDITOR
 // https://docs.unity.cn/cn/2019.4/ScriptReference/SettingsProvider.html
 [FilePath("ProjectSettings/CaptureSettings.asset", FilePathAttribute.Location.ProjectFolder)]
 public class CaptureSettings : ScriptableSingleton<CaptureSettings>
@@ -111,3 +112,4 @@ class CaptureProjectSettingsProvider : SettingsProvider
         return provider;
     }
 }
+#endif
