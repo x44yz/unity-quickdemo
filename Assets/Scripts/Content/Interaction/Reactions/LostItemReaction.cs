@@ -6,13 +6,13 @@ public class LostItemReaction : DelayedReaction
     private Inventory inventory;    // Reference to the Inventory component.
 
 
-    protected override void SpecificInit()
+    protected override void OnInit()
     {
         inventory = FindObjectOfType<Inventory> ();
     }
 
 
-    protected override void ImmediateReaction()
+    protected override void OnReaction()
     {
         inventory.RemoveItem (item);
     }
