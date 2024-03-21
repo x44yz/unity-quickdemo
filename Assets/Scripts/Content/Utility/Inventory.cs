@@ -117,7 +117,7 @@ public class Inventory : MonoBehaviour
         return RemoveItems(its.ToArray());
     }
 
-    public void RemoveItem(Item it, int count)
+    public void RemoveItem(Item it, int count = 1)
     {
         if (it == null)
         {
