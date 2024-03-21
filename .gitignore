@@ -1,6 +1,8 @@
 .DS_Store
 Captures/
 Assets/_Raws~/
+Recordings/
+*.blend1
 
 [Ll]ibrary/
 [Tt]emp/
