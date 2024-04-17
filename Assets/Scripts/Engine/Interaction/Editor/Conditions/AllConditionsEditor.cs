@@ -119,7 +119,6 @@ public class AllConditionsEditor : Editor
         instance.conditions = new Condition[0];
     }
 
-
     private void AddCondition(string description)
     {
         if (!AllConditions.Instance)

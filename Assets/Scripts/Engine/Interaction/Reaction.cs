@@ -3,8 +3,11 @@ using System.Collections;
 
 public abstract class Reaction : ScriptableObject
 {
-    public void Init()
+    protected Interactable owner;
+
+    public void Init(Interactable owner)
     {
+        this.owner = owner;
         OnInit();
     }
 
@@ -12,10 +15,10 @@ public abstract class Reaction : ScriptableObject
     {
     }
 
-    public void React(MonoBehaviour monoBehaviour)
+    public void React(MonoBehaviour monoBehaviour, IInteractSource s)
     {
-        OnReaction();
+        OnReaction(s);
     }
 
-    protected abstract void OnReaction();
+    protected abstract void OnReaction(IInteractSource s);
 }

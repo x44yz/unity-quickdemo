@@ -13,7 +13,7 @@ public class TextReaction : Reaction
         textManager = FindObjectOfType<TextManager>();
     }
 
-    protected override void OnReaction()
+    protected override void OnReaction(IInteractSource s)
     {
         textManager.DisplayMessage(message, textColor, delay);
     }

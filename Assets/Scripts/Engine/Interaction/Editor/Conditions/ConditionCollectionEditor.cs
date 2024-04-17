@@ -14,7 +14,7 @@ public class ConditionCollectionEditor : EditorWithSubEditors<ConditionEditor, C
 
     private const float conditionButtonWidth = 30f;
     private const float collectionButtonWidth = 125f;
-    private const string conditionCollectionPropDescriptionName = "description";
+    private const string conditionCollectionPropDescriptionName = "desc";
     private const string conditionCollectionPropRequiredConditionsName = "requiredConditions";
     private const string conditionCollectionPropReactionCollectionName = "reactionCollection";
 

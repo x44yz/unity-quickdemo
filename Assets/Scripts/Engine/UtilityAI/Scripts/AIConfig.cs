@@ -9,6 +9,9 @@ namespace AI.Utility
     {
         public Action[] actions;
         public ActionGroup[] actionGroups;
+        [Header("DEBUG")]
+        public Action soloAction;
+        public Action[] mutexActions;
 
         public int len
         {

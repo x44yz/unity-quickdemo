@@ -4,25 +4,21 @@ using System.Collections;
 public abstract class DelayedReaction : Reaction
 {
     public float delay;
-
     protected WaitForSeconds wait;
 
-    public new void Init()
+    protected override void OnInit()
     {
         wait = new WaitForSeconds(delay);
-
-        OnInit();
     }
 
-    public new void React(MonoBehaviour monoBehaviour)
+    public new void React(MonoBehaviour monoBehaviour, IInteractSource s)
     {
-        monoBehaviour.StartCoroutine(ReactCoroutine());
+        monoBehaviour.StartCoroutine(ReactCoroutine(s));
     }
 
-
-    protected IEnumerator ReactCoroutine()
+    protected IEnumerator ReactCoroutine(IInteractSource s)
     {
         yield return wait;
-        OnReaction();
+        OnReaction(s);
     }
 }

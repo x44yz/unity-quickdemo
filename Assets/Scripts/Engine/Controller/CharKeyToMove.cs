@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[AddComponentMenu("QuickDemo/CharacterCtrl")]
-public class CharacterCtrl : MonoBehaviour
+public class CharKeyToMove : CharController
 {
     [Header("DEFINE")]
     public float walkSpeed = 1;

@@ -1,3 +1,5 @@
+// #define USE_MONO_ACTIONOBJ
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,9 +7,10 @@ namespace AI.Utility
 {
     public class AgentAI : MonoBehaviour
     {
-        // public float selectInterval;
+        public float tickInterval = 1f;
         public AIConfig config;
         public bool showLog;
+        public bool enableTickInterval;
 
         [Header("RUNTIME")]
         public ActionObj[] actionObjs;
@@ -15,6 +18,8 @@ namespace AI.Utility
         [SerializeField] private float tick;
         [SerializeField] private bool inited;
         public bool debugScore;
+        public ActionObj soloActionObj;
+        public List<ActionObj> mutexActionObjs;
 
         public delegate void AgentHandleDelegate(AgentAI agent);
         public static AgentHandleDelegate onAgentCreate;
@@ -91,7 +96,11 @@ namespace AI.Utility
                 return null;
             }
 
+#if USE_MONO_ACTIONOBJ
             var obj = (ActionObj)gameObject.AddComponent(action.ActionObjType());
+#else
+            var obj = (ActionObj)Activator.CreateInstance(action.ActionObjType());
+#endif
             if (obj == null)
             {
                 if (showLog)
@@ -99,6 +108,21 @@ namespace AI.Utility
                 return null;
             }
             obj.Init(action);
+
+            // solo & mutex
+            if (config.soloAction == action)
+                soloActionObj = obj;
+            if (config.mutexActions != null && config.mutexActions.Length > 0)
+            {
+                for (int i = 0; i < config.mutexActions.Length; ++i)
+                {
+                    if (config.mutexActions[i] != action)
+                        continue;
+                    mutexActionObjs.Add(obj);
+                    break;
+                }
+            }
+
             return obj;
         }
 
@@ -106,17 +130,21 @@ namespace AI.Utility
         {
             if (actionObjs != null && actionObjs.Length > 0)
             {
+#if USE_MONO_ACTIONOBJ
                 for (int i = actionObjs.Length -1; i >= 0; --i)
                 {
                     var aobj = actionObjs[i];
                     GameObject.Destroy(aobj);
                 }
+#endif
                 actionObjs = null;
             }
 
             inited = false;
             tick = 0f;
             curActionObj = null;
+            soloActionObj = null;
+            mutexActionObjs = new List<ActionObj>();
         }
 
         public void Tick(IContext ctx, float dt)
@@ -127,6 +155,14 @@ namespace AI.Utility
             if (debugScore)
             {
                 DebugRefreshScore(ctx);
+            }
+
+            if (enableTickInterval)
+            {
+                tick += dt;
+                if (tick < tickInterval)
+                    return;
+                tick -= tickInterval;
             }
                 
             if (curActionObj != null)
@@ -140,11 +176,6 @@ namespace AI.Utility
                     curActionObj = null;
                 }
             }
-
-            // tick += dt;
-            // if (tick < selectInterval)
-            //     return;
-            // tick -= selectInterval;
 
             if (curActionObj != null && !curActionObj.CanInterrupt(ctx))
                 return;
@@ -176,12 +207,19 @@ namespace AI.Utility
             if (actionObjs == null || actionObjs.Length == 0)
                 return null;
 
+            // debug solo & mutex
+            if (soloActionObj != null)
+                return soloActionObj;
+
             float bestScore = float.MinValue;
             ActionObj bestAction = null;
             for (int i = 0; i < actionObjs.Length; ++i)
             {
                 var act = actionObjs[i];
                 if (act == null)
+                    continue;
+
+                if (mutexActionObjs.Contains(act))
                     continue;
 
                 if (act.IsInCooldown(ctx))

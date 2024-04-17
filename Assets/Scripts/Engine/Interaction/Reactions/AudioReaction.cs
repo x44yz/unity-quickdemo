@@ -6,7 +6,7 @@ public class AudioReaction : Reaction
     public AudioClip audioClip;
     public float delay;
 
-    protected override void OnReaction()
+    protected override void OnReaction(IInteractSource s)
     {
         audioSource.clip = audioClip;
         audioSource.PlayDelayed(delay);

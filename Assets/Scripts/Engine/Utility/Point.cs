@@ -17,6 +17,7 @@ public class Point : MonoBehaviour
     public int uid;
     public Vector3 pos => transform.position;
     public Vector3 fwd => transform.forward;
+    public Quaternion rot => transform.rotation;
 
     [Button("Auto Name", EButtonEnableMode.Editor)]
     private void AutoName()
@@ -33,6 +34,44 @@ public class Point : MonoBehaviour
     private void OnDestroy()
     {
         all.Remove(this);
+    }
+
+    public static Point FindNearestPoint(PointId pid, Vector3 p, bool log = false)
+    {
+        Point rt = null;
+        var pts = GetPoints(pid, log);
+        if (pts != null)
+        {
+            float minDist = float.MaxValue;
+
+            foreach (var pt in pts)
+            {
+                float dist = (pt.pos - p).sqrMagnitude;
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    rt = pt;
+                }
+            }
+        }
+        if (log && rt == null)
+            Debug.LogError($"cant find nearest point > {pid}");
+        return rt;
+    }
+
+    public static List<Point> GetPoints(PointId pid, bool log = false)
+    {
+        var pts = new List<Point>();
+        foreach (var p in all)
+        {
+            if (p.id == pid)
+            {
+                pts.Add(p);
+            }
+        }
+        if (log && pts.Count == 0)
+            Debug.LogError($"cant find any point > {pid}");
+        return pts;
     }
 
     public static Point GetPoint(PointId pid, bool log = false)

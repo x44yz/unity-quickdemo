@@ -1,8 +1,13 @@
+// #define USE_MONO_ACTIONOBJ
 using UnityEngine;
 
 namespace AI.Utility
 {
+#if USE_MONO_ACTIONOBJ
     public abstract class ActionObj : MonoBehaviour
+#else
+    public abstract class ActionObj
+#endif
     {
         public enum Status
         {
@@ -14,7 +19,7 @@ namespace AI.Utility
         public delegate void ScoreChangedDelegate(ActionObj act);
         public ScoreChangedDelegate onScoreChanged;
 
-        public string dbgName => action ? action.name : name;
+        public string dbgName => action ? action.name : GetType().ToString();
         public Action action { get; protected set; }
         public Precondition[] preconditions => action.preconditions;
         public ConsiderationDeco[] considerations => action.considerations;

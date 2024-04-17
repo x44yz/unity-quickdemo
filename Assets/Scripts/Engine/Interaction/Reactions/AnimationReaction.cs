@@ -12,7 +12,7 @@ public class AnimationReaction : DelayedReaction
         triggerHash = Animator.StringToHash(trigger);
     }
 
-    protected override void OnReaction()
+    protected override void OnReaction(IInteractSource s)
     {
         animator.SetTrigger(triggerHash);
     }

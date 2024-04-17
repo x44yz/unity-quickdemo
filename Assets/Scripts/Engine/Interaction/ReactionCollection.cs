@@ -6,27 +6,29 @@ public class ReactionCollection : MonoBehaviour
 
     private void Start()
     {
+        Interactable owenr = GetComponentInParent<Interactable>();
+
         for (int i = 0; i < reactions.Length; i++)
         {
             DelayedReaction delayedReaction = reactions[i] as DelayedReaction;
 
             if (delayedReaction)
-                delayedReaction.Init();
+                delayedReaction.Init(owenr);
             else
-                reactions[i].Init();
+                reactions[i].Init(owenr);
         }
     }
 
-    public void React()
+    public void React(IInteractSource s)
     {
         for (int i = 0; i < reactions.Length; i++)
         {
             DelayedReaction delayedReaction = reactions[i] as DelayedReaction;
 
             if (delayedReaction)
-                delayedReaction.React(this);
+                delayedReaction.React(this, s);
             else
-                reactions[i].React(this);
+                reactions[i].React(this, s);
         }
     }
 }

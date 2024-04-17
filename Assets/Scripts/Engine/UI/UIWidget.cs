@@ -27,7 +27,6 @@ public class UIWidget : MonoBehaviour
 
     public virtual void Init()
     {
-
     }
 
     public virtual void Show()

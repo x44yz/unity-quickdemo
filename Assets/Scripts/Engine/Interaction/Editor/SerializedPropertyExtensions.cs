@@ -33,7 +33,7 @@ public static class SerializedPropertyExtensions
         if (arrayProperty.GetArrayElementAtIndex(index).objectReferenceValue)
             arrayProperty.DeleteArrayElementAtIndex(index);
 
-        arrayProperty.DeleteArrayElementAtIndex(index);
+        // arrayProperty.DeleteArrayElementAtIndex(index);
         arrayProperty.serializedObject.ApplyModifiedProperties();
     }
 

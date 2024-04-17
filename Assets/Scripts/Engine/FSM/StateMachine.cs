@@ -54,12 +54,12 @@ namespace AI.FSM
             }
         }
 
-        public void Translate<TS>() where TS : FSM.State 
+        public void Translate<TS>(params object[] data) where TS : FSM.State 
         {
-            Translate(typeof(TS));
+            Translate(typeof(TS), data);
         }
 
-        public void Translate(Type tp)
+        public void Translate(Type tp, params object[] data)
         {
             State st = null;
             if (!states.TryGetValue(tp, out st))
@@ -67,10 +67,10 @@ namespace AI.FSM
                 Debug.LogError($"[FSM]{owner.FSMDebugLogPrefix} failed Translate because cant find state > {tp}");
                 return;
             }
-            Translate(st);
+            Translate(st, data);
         }
 
-        public void Translate(State st)
+        public void Translate(State st, params object[] data)
         {
             State lastState = null;
             if (curState != null)
@@ -80,7 +80,7 @@ namespace AI.FSM
             }
 
             curState = st;
-            curState.OnEnter(lastState);
+            curState.OnEnter(lastState, data);
         }
 
         public void AddTransition(Transition ts)
