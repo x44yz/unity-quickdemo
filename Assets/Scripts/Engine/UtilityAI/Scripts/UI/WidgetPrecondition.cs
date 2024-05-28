@@ -10,33 +10,33 @@ namespace AI.Utility
         public TMP_Text txtName;
         public TMP_Text txtBool;
 
-        private ActionObj action;
         private int preIdx;
+        private ActionDebug dbg;
 
-        public void Show(ActionObj act, int preIdx)
+        public void Show(AgentAI agent, Action action, int preIdx)
         {
             gameObject.SetActive(true);
 
-            this.action = act;
             this.preIdx = preIdx;
+            dbg = agent.GetActionDebugInfo(action);
 
-            var pre = act.preconditions[preIdx];
+            var pre = dbg.action.preconditions[preIdx];
             txtName.text = pre.name;
             Refresh();
         }
 
         public void Hide()
         {
-            action = null;
+            dbg = null;
             gameObject.SetActive(false);
         }
 
         public void Refresh()
         {
-            if (gameObject.activeSelf == false || action == null)
+            if (gameObject.activeSelf == false || dbg == null)
                 return;
 
-            bool? val = action.GetPreconditionBool(preIdx);
+            bool? val = dbg.GetPreconditionBool(preIdx);
             if (val == null)
             {
                 txtBool.text = "-";

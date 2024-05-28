@@ -36,7 +36,7 @@ namespace AI.Utility
             agent.onActionChanged += OnActionChanged;
 
             txtName.text = agent.name;
-            SetAction(agent.curActionObj);
+            SetAction(agent.curAction);
         }
 
         public void Hide()
@@ -51,7 +51,7 @@ namespace AI.Utility
             gameObject.SetActive(false);
         }
 
-        private void OnActionChanged(ActionObj act)
+        private void OnActionChanged(Action act)
         {
             SetAction(act);
         }
@@ -66,10 +66,10 @@ namespace AI.Utility
             imgBG.color = normalBgColor;
         }
 
-        private void SetAction(ActionObj act)
+        private void SetAction(Action act)
         {
             if (act != null)
-                txtAction.text = act.dbgName;
+                txtAction.text = act.name;
             else
                 txtAction.text = "null";
         }

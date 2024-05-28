@@ -62,7 +62,7 @@ namespace AI.Utility
             DeselectWidgetAgent();
             selectedWidgetAgent = wgt;
             selectedWidgetAgent.Select();
-            monitor.panelActions.Show(agent.actionObjs);
+            monitor.panelActions.Show(agent, agent.actions);
         }
 
         public void DeselectWidgetAgent()

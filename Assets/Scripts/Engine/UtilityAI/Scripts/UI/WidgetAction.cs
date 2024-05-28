@@ -15,8 +15,9 @@ namespace AI.Utility
         public Color selectedBgColor;
         public Color normalBgColor;
 
-        private ActionObj action;
-        public System.Action<WidgetAction, ActionObj> onWidgetClick;
+        private AgentAI agent;
+        private Action action;
+        public System.Action<WidgetAction, AgentAI, Action> onWidgetClick;
         public System.Action<WidgetAction> onWidgetRefresh;
 
         public string scoreFormat => UtilityAIMonitor.Inst.scoreFormat;
@@ -25,27 +26,28 @@ namespace AI.Utility
         {
             btn.onClick.AddListener(() =>
             {
-                onWidgetClick?.Invoke(this, action);
+                onWidgetClick?.Invoke(this, agent, action);
             });
         }
 
-        public void Show(ActionObj act)
+        public void Show(AgentAI agent, Action act)
         {
             gameObject.SetActive(true);
 
+            this.agent = agent;
             this.action = act;
-            act.onScoreChanged += OnActionScoreChanged;
+            agent.onScoreChanged += OnActionScoreChanged;
 
-            txtName.text = act.dbgName;
-            RefreshScore(act);
+            txtName.text = act.name;
+            RefreshScore(agent, act);
         }
 
         public void Hide()
         {
-            if (action != null)
+            if (agent != null)
             {
-                action.onScoreChanged -= OnActionScoreChanged;
-                action = null;
+                agent.onScoreChanged -= OnActionScoreChanged;
+                agent = null;
             }
 
             gameObject.SetActive(false);
@@ -61,18 +63,23 @@ namespace AI.Utility
             imgBG.color = normalBgColor;
         }
 
-        private void OnActionScoreChanged(ActionObj act)
+        private void OnActionScoreChanged(Action act)
         {
-            RefreshScore(act);
+            if (action != act)
+                return;
+
+            RefreshScore(agent, act);
             onWidgetRefresh?.Invoke(this);
         }
 
-        private void RefreshScore(ActionObj act)
+        private void RefreshScore(AgentAI agent, Action act)
         {
-            string strScore = act.curScore.ToString(scoreFormat);
-            if (act.IsPrecondtionsValid() == false)
+            var dbgInfo = agent.GetActionDebugInfo(act);
+
+            string strScore = dbgInfo.curScore.ToString(scoreFormat);
+            if (dbgInfo.IsPrecondtionsValid() == false)
                 strScore += "[P]";
-            if (act.isCooldown)
+            if (dbgInfo.isInCooldown)
                 strScore += "[C]";
             txtScore.text = strScore;
         }

@@ -10,21 +10,24 @@ namespace AI.Utility
         public TMP_Text txtName;
         public TMP_Text txtScore;
 
-        private ActionObj action;
+        private Action action;
         private int conIdx;
+        private ActionDebug dbg;
 
         public string scoreFormat => UtilityAIMonitor.Inst.scoreFormat;
 
-        public void Show(ActionObj act, int conIdx)
+        public void Show(AgentAI agent, Action act, int conIdx)
         {
             gameObject.SetActive(true);
 
             this.action = act;
             this.conIdx = conIdx;
 
+            dbg = agent.GetActionDebugInfo(act);
+
             var con = act.considerations[conIdx];
             txtName.text = con.name;
-            txtScore.text = act.GetConsiderationScore(conIdx).ToString(scoreFormat);
+            txtScore.text = dbg.GetConsiderationScore(conIdx).ToString(scoreFormat);
         }
 
         public void Hide()
@@ -38,7 +41,7 @@ namespace AI.Utility
             if (gameObject.activeSelf == false || action == null)
                 return;
 
-            txtScore.text = action.GetConsiderationScore(conIdx).ToString(scoreFormat);
+            txtScore.text = dbg.GetConsiderationScore(conIdx).ToString(scoreFormat);
         }
     }
 }

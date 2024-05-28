@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,7 +27,7 @@ namespace AI.Utility
             tmpWidgetAction.Hide();
         }
 
-        public void Show(ActionObj[] actions)
+        public void Show(AgentAI agent, List<Action> actions)
         {
             gameObject.SetActive(true);
 
@@ -38,11 +39,11 @@ namespace AI.Utility
             if (actions == null)
                 return;
 
-            for (int i = 0; i < actions.Length; ++i)
+            for (int i = 0; i < actions.Count; ++i)
             {
                 var act = actions[i];
                 var wgt = UIUtils.GetListValidWidget<WidgetAction>(i, tmpWidgetAction);
-                wgt.Show(act);
+                wgt.Show(agent, act);
                 wgt.onWidgetClick = OnWidgetActionClick;
                 wgt.onWidgetRefresh = OnWidgetActionRefresh;
             }
@@ -61,13 +62,13 @@ namespace AI.Utility
             gameObject.SetActive(false);
         }
 
-        private void OnWidgetActionClick(WidgetAction wgt, ActionObj act)
+        private void OnWidgetActionClick(WidgetAction wgt, AgentAI agent, Action act)
         {
             DeselectWidgetAction();
             selectedWidgetAction = wgt;
             selectedWidgetAction.Select();
-            monitor.panelPreconditions.Show(act);
-            monitor.panelConsiderations.Show(act);
+            monitor.panelPreconditions.Show(agent, act);
+            monitor.panelConsiderations.Show(agent, act);
         }
 
         private void OnWidgetActionRefresh(WidgetAction wgt)

@@ -27,7 +27,7 @@ namespace AI.Utility
             tmpWidgetConsideration.Hide();
         }
 
-        public void Show(ActionObj act)
+        public void Show(AgentAI agent, Action act)
         {
             gameObject.SetActive(true);
 
@@ -44,7 +44,7 @@ namespace AI.Utility
             {
                 var wgt = UIUtils.GetListValidWidget<WidgetConsideration>(i, tmpWidgetConsideration);
                 widgets.Add(wgt);
-                wgt.Show(act, i);
+                wgt.Show(agent, act, i);
             }
         }
 

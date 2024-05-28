@@ -493,4 +493,26 @@ public static class Utils
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
+
+    public static void DelaySeconds(this MonoBehaviour mb, float seconds, System.Action cb)
+    {
+        mb.StartCoroutine(_DelaySeconds(seconds, cb));
+    }
+
+    public static void DelayOneFrame(this MonoBehaviour mb, System.Action cb)
+    {
+        mb.StartCoroutine(_DelayOneFrame(cb));
+    }
+
+    private static IEnumerator _DelaySeconds(float seconds, System.Action cb)
+    {
+        yield return new WaitForSeconds(seconds);
+        cb.Invoke();
+    }
+
+    public static IEnumerator _DelayOneFrame(System.Action cb)
+    {
+        yield return new WaitForEndOfFrame();
+        cb.Invoke();
+    }
 }
