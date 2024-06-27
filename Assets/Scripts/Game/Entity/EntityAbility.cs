@@ -5,8 +5,7 @@ using UnityEngine;
 public class EntityAbility : MonoBehaviour
 {
     public static ResSystem sRes => GameMgr.Inst.sRes;
-    public static PanelHUD hud => GameMgr.Inst.hud;
-    public static EntitySystem sEntity => GameMgr.Inst.sEntity;
+    public static PageHUD hud => GameMgr.Inst.hud;
     public static TimeSystem sTime => GameMgr.Inst.sTime;
     public static Player plr => GameMgr.Inst.plr;
 

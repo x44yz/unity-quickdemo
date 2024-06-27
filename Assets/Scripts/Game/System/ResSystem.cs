@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using TMPro;
 
 public class ResSystem : MonoBehaviour
 {
-    public List<ItemCfg> itemCfgs;
+    [NonSerialized]public List<ItemCfg> itemCfgs;
 
     public void Init()
     {

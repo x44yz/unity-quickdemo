@@ -10,12 +10,11 @@ public class GameMgr : MonoBehaviour
     public InputSystem sInput;
     public TimeSystem sTime;
     public CameraSystem sCamera;
-    public EntitySystem sEntity;
     public Player plr;
     public GameContext gCtx;
 
     [Header("UI")]
-    public PanelHUD hud;
+    public PageHUD hud;
 
     [Header("RUNTIME")]
     public bool paused;
@@ -35,25 +34,25 @@ public class GameMgr : MonoBehaviour
         
         // gCtx.Init();
 
-        // hud.transform.parent.gameObject.SetActive(true);
-        // hud.Init();
+        hud.transform.parent.gameObject.SetActive(true);
+        hud.Init();
+        hud.Show();
     }
 
     public void SetPaused(bool v)
     {
         paused = v;
         hud.SetPaused(paused);
-        sEntity.SetAllActorAgentStop(v);
     }
 
     public void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     SetPaused(!paused);
-        // }
-        // if (paused)
-        //     return;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SetPaused(!paused);
+        }
+        if (paused)
+            return;
 
         // sTime.Tick(Time.deltaTime);
         // float dt = sTime.deltaMins;
@@ -65,7 +64,6 @@ public class GameMgr : MonoBehaviour
     public void Restart()
     {
         sTime.Reset();
-        sEntity.Reset();
         gCtx.Reset();
         SetPaused(false);
     }

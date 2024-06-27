@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TimeSystem : MonoBehaviour
 {
-    public static PanelHUD hud => GameMgr.Inst.hud;
+    public static PageHUD hud => GameMgr.Inst.hud;
 
     public float timeSpd; // mins / per real second
     [Range(0.1f, 7f)]

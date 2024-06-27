@@ -7,14 +7,11 @@ public class Entity : MonoBehaviour
     public static ResSystem sRes => GameMgr.Inst.sRes;
     public static CameraSystem sCamera => GameMgr.Inst.sCamera;
     public static TimeSystem sTime => GameMgr.Inst.sTime;
-    public static PanelHUD hud => GameMgr.Inst.hud;
+    public static PageHUD hud => GameMgr.Inst.hud;
     public static Player plr => GameMgr.Inst.plr;
-    public static EntitySystem sEntity => GameMgr.Inst.sEntity;
     public static InputSystem sInput => GameMgr.Inst.sInput;
 
     public static int ENTITY_UID_GEN = 1000;
-
-    // public Socket[] sockets;
 
     [Header("RUNTIME")]
     public int uid = Defs.INVALID_UID;
@@ -54,8 +51,6 @@ public class Entity : MonoBehaviour
                 ab.Init(this);
             }
         }
-
-        sEntity.RegisterEntity(this);
     }
 
     public virtual void Reset()
@@ -72,7 +67,6 @@ public class Entity : MonoBehaviour
     public void Kill()
     {
         Destroy(gameObject);
-        sEntity.UnregisterEntity(this);
     }
 
     public virtual void Tick(float dt)

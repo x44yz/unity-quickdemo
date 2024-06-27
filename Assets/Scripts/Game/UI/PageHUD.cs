@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class PanelHUD : UIWidget
+public class PageHUD : UIWidget
 {
     public static GameMgr game => GameMgr.Inst;
 
