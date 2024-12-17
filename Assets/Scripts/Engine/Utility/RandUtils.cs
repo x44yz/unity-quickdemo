@@ -4,6 +4,19 @@ using UnityEngine;
 
 public static class RandUtils
 {
+    public static void Shuffle<T>(List<T> list)
+    {
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = Rand(n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
+
     public static void InitSeed(int seed)
     {
         UnityEngine.Random.InitState(seed);
@@ -72,5 +85,10 @@ public static class RandUtils
         float rot = Rand(minRot, maxRot);
         var dir = Quaternion.AngleAxis(rot, Vector3.up) * fw;
         return pt + dir.normalized * dist;
+    }
+
+    public static bool FlipCoin(int val)
+    {
+        return Rand(val) == 0;
     }
 }
