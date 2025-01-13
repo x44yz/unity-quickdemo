@@ -57,11 +57,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: nokiafc22 SDF
+  m_Name: nokiafc22 SDF 1
   m_EditorClassIdentifier: 
-  hashCode: 469721750
+  hashCode: 425878535
   material: {fileID: 4950780700770063097}
-  materialHashCode: -1853403018
+  materialHashCode: 1350466631
   m_Version: 1.1.0
   m_SourceFontFileGUID: 5ad1e1df278df4287b0c1c2a07eb2704
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 5ad1e1df278df4287b0c1c2a07eb2704, type: 3}

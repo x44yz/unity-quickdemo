@@ -8,7 +8,7 @@ using NaughtyAttributes;
 using UnityEditor;
 #endif
 
-public abstract class ActorAction : AI.Utility.Action
+public abstract class ActorDecision : Decision
 {
 #if UNITY_EDITOR
     [BoxGroup("Pre&Con")]

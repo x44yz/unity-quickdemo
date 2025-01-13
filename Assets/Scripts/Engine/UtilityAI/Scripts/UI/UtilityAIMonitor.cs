@@ -14,7 +14,7 @@ namespace AI.Utility
         public static UtilityAIMonitor Inst;
 
         public PanelAgents panelAgents;
-        public PanelActions panelActions;
+        public PanelDecisions panelDecisions;
         public PanelPreconditions panelPreconditions;
         public PanelConsiderations panelConsiderations;
         public Button btnMonitor;
@@ -45,12 +45,12 @@ namespace AI.Utility
         private void Start()
         {
             panelAgents.Init(this);
-            panelActions.Init(this);
+            panelDecisions.Init(this);
             panelPreconditions.Init(this);
             panelConsiderations.Init(this);
 
             panelAgents.Hide();
-            panelActions.Hide();
+            panelDecisions.Hide();
             panelPreconditions.Hide();
             panelConsiderations.Hide();
 

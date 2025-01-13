@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace AI.Utility
 {
-    public class WidgetAction : MonoBehaviour
+    public class WidgetDecision : MonoBehaviour
     {
         public TMP_Text txtName;
         public TMP_Text txtScore;
@@ -16,9 +16,9 @@ namespace AI.Utility
         public Color normalBgColor;
 
         private AgentAI agent;
-        private Action action;
-        public System.Action<WidgetAction, AgentAI, Action> onWidgetClick;
-        public System.Action<WidgetAction> onWidgetRefresh;
+        private Decision decision;
+        public System.Action<WidgetDecision, AgentAI, Decision> onWidgetClick;
+        public System.Action<WidgetDecision> onWidgetRefresh;
 
         public string scoreFormat => UtilityAIMonitor.Inst.scoreFormat;
 
@@ -26,17 +26,17 @@ namespace AI.Utility
         {
             btn.onClick.AddListener(() =>
             {
-                onWidgetClick?.Invoke(this, agent, action);
+                onWidgetClick?.Invoke(this, agent, decision);
             });
         }
 
-        public void Show(AgentAI agent, Action act)
+        public void Show(AgentAI agent, Decision act)
         {
             gameObject.SetActive(true);
 
             this.agent = agent;
-            this.action = act;
-            agent.onScoreChanged += OnActionScoreChanged;
+            this.decision = act;
+            agent.onScoreChanged += OnDecisionScoreChanged;
 
             txtName.text = act.name;
             RefreshScore(agent, act);
@@ -46,7 +46,7 @@ namespace AI.Utility
         {
             if (agent != null)
             {
-                agent.onScoreChanged -= OnActionScoreChanged;
+                agent.onScoreChanged -= OnDecisionScoreChanged;
                 agent = null;
             }
 
@@ -63,18 +63,18 @@ namespace AI.Utility
             imgBG.color = normalBgColor;
         }
 
-        private void OnActionScoreChanged(Action act)
+        private void OnDecisionScoreChanged(Decision act)
         {
-            if (action != act)
+            if (decision != act)
                 return;
 
             RefreshScore(agent, act);
             onWidgetRefresh?.Invoke(this);
         }
 
-        private void RefreshScore(AgentAI agent, Action act)
+        private void RefreshScore(AgentAI agent, Decision act)
         {
-            var dbgInfo = agent.GetActionDebugInfo(act);
+            var dbgInfo = agent.GetDecisionDebugInfo(act);
 
             string strScore = dbgInfo.curScore.ToString(scoreFormat);
             if (dbgInfo.IsPrecondtionsValid() == false)

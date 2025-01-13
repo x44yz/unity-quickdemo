@@ -9,27 +9,33 @@ namespace AI.Utility
         public float tickInterval = 1f;
         public AIConfig config;
         public bool showLog;
-        public bool enableTickInterval;
+        // public bool enableTickInterval;
 
         [Header("RUNTIME")]
-        public List<Action> actions;
-        public Action curAction;
-        [SerializeField] private float tick;
-        [SerializeField] private bool inited;
-        public bool debugScore;
-        public Dictionary<Action, ActionDebug> actionDebugs;
-        public Dictionary<Action, float> actionCDStartTSs;
+        private float tick;
+        private bool inited;
+        public bool curDecisionRunning;
+        public IContext ctx;
+        [HideInInspector]public List<Decision> decisions;
+        public Decision curDecision;
+        // public IAction curAction;
+        public Dictionary<Decision, DecisionDebug> decisionDebugs;
+        public Dictionary<Decision, float> decisionCDStartTSs;
 
-        public Action soloAction => config.soloAction;
-        public Action[] mutexActions => config.mutexActions;
+        public Decision soloDecision => config.soloDecision;
+        public Decision[] mutexDecisions => config.mutexDecisions;
 
         public delegate void AgentHandleDelegate(AgentAI agent);
         public static AgentHandleDelegate onAgentCreate;
         public static AgentHandleDelegate onAgentDestroy;
 
-        public delegate void ActionChangedDelegate(Action act);
-        public ActionChangedDelegate onActionChanged;
-        public ActionChangedDelegate onScoreChanged;
+        public delegate void DecisionChangedDelegate(Decision decision);
+        public DecisionChangedDelegate onDecisionChanged;
+        public DecisionChangedDelegate onScoreChanged;
+
+#if UNITY_EDITOR
+        public bool debugScore;
+#endif
 
         private void Start()
         {
@@ -41,14 +47,15 @@ namespace AI.Utility
             onAgentDestroy?.Invoke(this);
         }
 
-        public void Init(bool log)
+        public void Init(IContext ctx, bool log)
         {
-            Init(config, true);
+            Init(ctx, config, true);
         }
 
-        public void Init(AIConfig cfg, bool log)
+        public void Init(IContext ctx, AIConfig cfg, bool log)
         {
             Reset();
+            this.ctx = ctx;
 
             if (cfg == null && config == null)
             {
@@ -61,184 +68,190 @@ namespace AI.Utility
             if (cfg != null)
                 config = cfg;
 
-            actions = new List<Action>();
-            actions.AddRange(config.actions);
+            decisions = new List<Decision>();
+            decisions.AddRange(config.decisions);
 
-            if (config.actionGroups != null)
-            {
-                foreach (var g in config.actionGroups)
-                {
-                    if (g == null)
-                    {
-                        if (showLog)
-                            AILogger.LogError($"{config.name} action group is null");
-                        continue;
-                    }
-                    actions.AddRange(g.actions);
-                }
-            }
+            // if (config.decisionGroups != null)
+            // {
+            //     foreach (var g in config.decisionGroups)
+            //     {
+            //         if (g == null)
+            //         {
+            //             if (showLog)
+            //                 AILogger.LogError($"{config.name} decision group is null");
+            //             continue;
+            //         }
+            //         decisions.AddRange(g.decisions);
+            //     }
+            // }
 
-            actionCDStartTSs = new Dictionary<Action, float>();
-            actionDebugs = new Dictionary<Action, ActionDebug>();
-            for (int i = 0; i < actions.Count; ++i)
+            decisionCDStartTSs = new Dictionary<Decision, float>();
+            decisionDebugs = new Dictionary<Decision, DecisionDebug>();
+            for (int i = 0; i < decisions.Count; ++i)
             {
-                var action = actions[i];
-                var dbg = new ActionDebug();
-                dbg.Init(action);
-                actionDebugs[action] = dbg;
+                var decision = decisions[i];
+                var dbg = new DecisionDebug();
+                dbg.Init(decision);
+                decisionDebugs[decision] = dbg;
             }
         }
-
-        // private ActionObj CreateActionObj(Action action)
-        // {
-        //     if (action == null)
-        //     {
-        //         if (showLog)
-        //             AILogger.LogError($"{config.name} action is null");
-        //         return null;
-        //     }
-
-        //     var obj = (ActionObj)Activator.CreateInstance(action.ActionObjType());
-        //     if (obj == null)
-        //     {
-        //         if (showLog)
-        //             AILogger.LogError($"{config.name} action {action.name} cant create obj");
-        //         return null;
-        //     }
-        //     obj.Init(action);
-
-        //     // solo & mutex
-        //     if (config.soloAction == action)
-        //         soloActionObj = obj;
-        //     if (config.mutexActions != null && config.mutexActions.Length > 0)
-        //     {
-        //         for (int i = 0; i < config.mutexActions.Length; ++i)
-        //         {
-        //             if (config.mutexActions[i] != action)
-        //                 continue;
-        //             mutexActionObjs.Add(obj);
-        //             break;
-        //         }
-        //     }
-
-        //     return obj;
-        // }
 
         public void Reset()
         {
-            // if (actionObjs != null && actionObjs.Length > 0)
-            // {
-            //     actionObjs = null;
-            // }
-
             inited = false;
             tick = 0f;
-            actions.Clear();
+            if (decisions != null)
+                decisions.Clear();
         }
 
-        public void Tick(IContext ctx, float dt)
+        public void Tick(float dt)
         {
             if (inited == false)
                 return;
 
+#if UNITY_EDITOR
             if (debugScore)
             {
-                DebugRefreshScore(ctx);
+                DebugRefreshScore();
             }
+#endif
 
-            if (enableTickInterval)
+            // if (enableTickInterval)
             {
                 tick += dt;
                 if (tick < tickInterval)
                     return;
                 tick -= tickInterval;
             }
+
+            if (curDecision != null && 
+                curDecisionRunning == true &&
+                curDecision.CanInterrupt(ctx) == false)
+            {
+                // 在其他地方 tick
+                return;
+            }
                 
-            if (curAction != null)
-            {
-                var status = curAction.Execute(ctx, dt);
-                if (status == Status.FINISHED)
-                {
-                    curAction.Exit(ctx);
-                    StartCooldown(curAction, ctx);
-                    if (showLog)
-                        AILogger.Log($"{name} exit action > {curAction.name}");
-                    curAction = null;
-                }
-            }
+            // if (curDecision != null && curAction != null)
+            // {
+            //     var status = curAction.Execute(ctx, dt);
+            //     if (status == Status.FINISHED)
+            //     {
+            //         curAction.Exit(ctx);
+            //         StartCooldown(curDecision, ctx);
+            //         if (showLog)
+            //             AILogger.Log($"{name} exit decision > {curDecision.name}");
+            //         curDecision = null;
+            //         curAction = null;
+            //     }
+            // }
 
-            if (curAction != null && !curAction.CanInterrupt(ctx))
+            // if (curDecision != null && !curDecision.CanInterrupt(ctx))
+            //     return;
+
+            var bestDecision = Select();
+            if (bestDecision == curDecision &&
+                curDecisionRunning)
+            {
+                // if (showLog)
+                //     AILogger.Log($"same best descision > {bestDecision.name}");
                 return;
-
-            var bestAction = Select(ctx);
-            if (bestAction == curAction)
-                return;
-
-            if (curAction != null)
-            {
-                curAction.Exit(ctx);
-                StartCooldown(curAction, ctx);
-                if (showLog)
-                    AILogger.Log($"{name} exit action > {curAction.name}");
-            }
-            curAction = bestAction;
-            if (curAction != null)
-            {
-                curAction.Enter(ctx);
-                if (showLog)
-                    AILogger.Log($"{name} enter action > {curAction.name}");
             }
 
-            if (onActionChanged != null)
-                onActionChanged.Invoke(curAction);
+            // if (curDecision != null && curAction != null)
+            // {
+            //     curAction.Exit(ctx);
+            //     StartCooldown(curDecision, ctx);
+            //     if (showLog)
+            //         AILogger.Log($"{name} exit decision > {curDecision.name}");
+            // }
+
+            curDecision = bestDecision;
+            if (curDecision.Handle(ctx, OnDecisionDone))
+            {
+                curDecisionRunning = true;
+            }
+            else
+            {
+                curDecisionRunning = false;
+            }
+            // curAction = curDecision.GetAction();
+            // if (curDecision != null && curAction != null)
+            // {
+            //     curAction.Enter(ctx);
+            if (showLog)
+                AILogger.Log($"{name} new decision > {curDecision.name}");
+            // }
+
+            if (onDecisionChanged != null)
+                onDecisionChanged.Invoke(curDecision);
         }
 
-        private Action Select(IContext ctx)
+        private void OnDecisionDone()
         {
-            if (actions == null || actions.Count == 0)
+            // if (action != curAction)
+            // {
+            //     AILogger.LogError("not current action");
+            //     return;
+            // }
+
+            // curDecision.Exit(ctx);
+
+            StartCooldown(curDecision);
+            if (showLog)
+                AILogger.Log($"{name} exit decision > {curDecision.name}");
+
+            curDecisionRunning = false;
+            // curDecision = null;
+            // curAction = null;
+        }
+
+        private Decision Select()
+        {
+            if (decisions == null || decisions.Count == 0)
                 return null;
 
             // debug solo & mutex
-            if (soloAction != null)
-                return soloAction;
+            if (soloDecision != null)
+                return soloDecision;
 
             float bestScore = float.MinValue;
-            Action bestAction = null;
-            for (int i = 0; i < actions.Count; ++i)
+            Decision bestDecision = null;
+            for (int i = 0; i < decisions.Count; ++i)
             {
-                var act = actions[i];
-                if (act == null)
+                var dec = decisions[i];
+                if (dec == null)
                     continue;
 
-                if (IsMutexAction(act))
+                if (IsMutexDecision(dec))
                     continue;
-                if (IsInCooldown(act, ctx))
+                if (IsInCooldown(dec))
                     continue;
-                if (Evaluate(act, ctx) == false)
+                if (Evaluate(dec) == false)
                     continue;
 
-                float score = Score(act, ctx);
+                float score = Score(dec);
                 if (score > bestScore)
                 {
                     bestScore = score;
-                    bestAction = act;
+                    bestDecision = dec;
                 }
             }
 
-            return bestAction;
+            return bestDecision;
         }
 
-        private float Score(Action action, IContext ctx)
+        private float Score(Decision decision)
         {
-            if (action.considerations == null || action.considerations.Length == 0)
+            if (decision.considerations == null || decision.considerations.Length == 0)
                 return 0f;
 
-            var dbgInfo = GetActionDebugInfo(action);
+            var dbgInfo = GetDecisionDebugInfo(decision);
 
             float score = 0.0f;
-            for (int i = 0; i < action.considerations.Length; i++)
+            for (int i = 0; i < decision.considerations.Length; i++)
             {
-                var con = action.considerations[i];
+                var con = decision.considerations[i];
                 float s = con.Score(ctx) * con.weight; // / conTotalWeight;
                 // Debug.Log($"xx-- {name} - {i}/{considerations.Length}");
                 dbgInfo.conScores[i] = s;
@@ -252,21 +265,23 @@ namespace AI.Utility
             dbgInfo.curScore = score;
 
             if (onScoreChanged != null)
-                onScoreChanged.Invoke(action);
+                onScoreChanged.Invoke(decision);
             return score;
         }
 
-        private bool Evaluate(Action action, IContext ctx)
+        private bool Evaluate(Decision decision)
         {
-            if (action.preconditions == null || action.preconditions.Length == 0)
+            if (decision.preconditions == null || decision.preconditions.Length == 0)
                 return true;
 
-            var dbgInfo = GetActionDebugInfo(action);
+            var dbgInfo = GetDecisionDebugInfo(decision);
 
             dbgInfo.preBreakIdx = int.MaxValue;
-            for (int i = 0; i < action.preconditions.Length; ++i)
+            for (int i = 0; i < decision.preconditions.Length; ++i)
             {
-                var isTrue = action.preconditions[i].IsTrue(ctx);
+                var pre = decision.preconditions[i];
+                var isTrue = pre.IsTrue(ctx);
+                if (pre.isNot) isTrue = !isTrue;
                 dbgInfo.preBools[i] = isTrue;
 
                 if (isTrue == false)
@@ -278,62 +293,63 @@ namespace AI.Utility
             return true;
         }
 
-        protected void StartCooldown(Action action, IContext ctx)
+        protected void StartCooldown(Decision decision)
         {
-            if (action.cooldown <= 0f)
+            if (decision.cooldown <= 0f)
                 return;
 
-            actionCDStartTSs[action] = ctx.GetActionCooldownTS();
+            decisionCDStartTSs[decision] = ctx.GetDecisionCooldownTS();
         }
 
-        public bool IsInCooldown(Action action, IContext ctx)
+        public bool IsInCooldown(Decision decision)
         {
-            if (action.cooldown <= 0f)
+            if (decision.cooldown <= 0f)
             {
                 return false;
             }
 
             float startTS = 0f;
-            if (actionCDStartTSs.TryGetValue(action, out startTS) == false)
+            if (decisionCDStartTSs.TryGetValue(decision, out startTS) == false)
             {
-                startTS = ctx.GetActionCooldownTS();
-                actionCDStartTSs[action] = startTS;
+                return false;
+                // startTS = ctx.GetDecisionCooldownTS();
+                // decisionCDStartTSs[decision] = startTS;
             }
 
-            bool isCooldown = ctx.GetActionCooldownTS() < startTS + action.cooldown;
-            GetActionDebugInfo(action).isInCooldown = isCooldown;
+            bool isCooldown = ctx.GetDecisionCooldownTS() < startTS + decision.cooldown;
+            GetDecisionDebugInfo(decision).isInCooldown = isCooldown;
             return isCooldown;
         }
 
-        private bool IsMutexAction(Action action)
+        private bool IsMutexDecision(Decision decision)
         {
-            if (mutexActions == null || mutexActions.Length == 0)
+            if (mutexDecisions == null || mutexDecisions.Length == 0)
                 return false;
-            for (int i = 0; i < mutexActions.Length; ++i)
+            for (int i = 0; i < mutexDecisions.Length; ++i)
             {
-                if (mutexActions[i] == action)
+                if (mutexDecisions[i] == decision)
                     return true;
             }
             return false;
         }
 
-        private void DebugRefreshScore(IContext ctx)
+        private void DebugRefreshScore()
         {
-            if (actions == null || actions.Count == 0)
+            if (decisions == null || decisions.Count == 0)
                 return;
 
-            for (int i = 0; i < actions.Count; ++i)
+            for (int i = 0; i < decisions.Count; ++i)
             {
-                var act = actions[i];
-                if (act == null)
+                var dec = decisions[i];
+                if (dec == null)
                     continue;
-                Score(act, ctx);
+                Score(dec);
             }
         }
 
-        public ActionDebug GetActionDebugInfo(Action action)
+        public DecisionDebug GetDecisionDebugInfo(Decision decision)
         {
-            return actionDebugs[action];
+            return decisionDebugs[decision];
         }
     }
 }

@@ -1,9 +1,9 @@
 
 namespace AI.Utility
 {
-    public class ActionDebug
+    public class DecisionDebug
     {
-        public Action action { get; set; }
+        public Decision decision { get; set; }
         public float curScore { get; set; }
         public float[] conScores = null;
         public bool[] preBools = null;
@@ -12,12 +12,12 @@ namespace AI.Utility
         // public Precondition[] preconditions => action.preconditions;
         // public ConsiderationDeco[] considerations => action.considerations;
 
-        public void Init(Action action)
+        public void Init(Decision decision)
         {
-            this.action = action;
+            this.decision = decision;
 
-            conScores = new float[action.considerations.Length];
-            preBools = new bool[action.preconditions.Length];
+            conScores = new float[decision.considerations.Length];
+            preBools = new bool[decision.preconditions.Length];
             // conTotalWeight = 0f;
             // foreach (var con in considerations)
             // {

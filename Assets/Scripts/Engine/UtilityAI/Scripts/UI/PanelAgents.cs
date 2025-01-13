@@ -46,7 +46,7 @@ namespace AI.Utility
 
         public void Hide()
         {
-            monitor.panelActions.Hide();
+            monitor.panelDecisions.Hide();
             UIUtils.HandleListAllWidgets<WidgetAgent>(tmpWidgetAgent, (wgt) =>
             {
                 wgt.Hide();
@@ -62,7 +62,7 @@ namespace AI.Utility
             DeselectWidgetAgent();
             selectedWidgetAgent = wgt;
             selectedWidgetAgent.Select();
-            monitor.panelActions.Show(agent, agent.actions);
+            monitor.panelDecisions.Show(agent, agent.decisions);
         }
 
         public void DeselectWidgetAgent()

@@ -8,6 +8,13 @@ public static class UIUtils
 {
     public static StringBuilder sb = new StringBuilder();
 
+    public static void HideListAllWidgets<T>(T tmp) where T : UIWidget
+    {
+        HandleListAllWidgets<T>(tmp, (wgt)=>{
+            wgt.Hide();
+        });
+    }
+
     public static void HandleListAllWidgets<T>(T tmp, Action<T> callback) where T : UIWidget
     {
         var widgets = GetListAllWidgets(tmp);
@@ -71,5 +78,35 @@ public static class UIUtils
         }
         obj.SetActive(true);
         return obj.GetComponent<T>();
+    }
+
+    public static string ToHex(this Color color)
+    {
+        int r = (int)(color.r * 255);
+        int g = (int)(color.g * 255);
+        int b = (int)(color.b * 255);
+        int a = (int)(color.a * 255);
+        string hex = string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", r, g, b, a);
+        return hex;
+    }
+
+    public static string TextColor(string s, Color c)
+    {
+        return $"<color={c.ToHex()}>{s}</color>";
+    }
+
+    public static string FormatHMS(int seconds)
+    {
+        int h = (int)(seconds / 3600);
+        seconds -= h * 3600;
+        int m = (int)(seconds / 60);
+        seconds -= m * 60;
+        sb.Clear();
+        if (h > 0)
+            sb.Append($"{h}H");
+        if (h > 0 || m > 0)
+            sb.Append($"{m}M");
+        sb.Append($"{seconds}S");
+        return sb.ToString();
     }
 }

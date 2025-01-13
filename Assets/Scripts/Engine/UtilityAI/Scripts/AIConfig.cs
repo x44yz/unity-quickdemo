@@ -4,26 +4,26 @@ using UnityEngine;
 
 namespace AI.Utility
 {
-    [CreateAssetMenu(fileName = "AIConfig", menuName = "AI/AIConfig")]
+    [CreateAssetMenu(fileName = "AIConfig", menuName = "UtilityAI/AIConfig")]
     public class AIConfig : ScriptableObject
     {
-        public Action[] actions;
-        public ActionGroup[] actionGroups;
+        public Decision[] decisions;
+        // public DecisionGroup[] decisionGroups;
         [Header("DEBUG")]
-        public Action soloAction;
-        public Action[] mutexActions;
+        public Decision soloDecision;
+        public Decision[] mutexDecisions;
 
         public int len
         {
             get {
                 int total = 0;
-                if (actions != null)
-                    total += actions.Length;
-                if (actionGroups != null)
-                {
-                    foreach (var k in actionGroups)
-                        total += k.len;
-                }
+                if (decisions != null)
+                    total += decisions.Length;
+                // if (decisionGroups != null)
+                // {
+                //     foreach (var k in decisionGroups)
+                //         total += k.len;
+                // }
                 return total;
             }
         }

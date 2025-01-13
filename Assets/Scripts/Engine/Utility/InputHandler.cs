@@ -2,53 +2,61 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-// public enum InputClickState
-// {
-//     DOWN,
-//     UP,
-// }
-
-public enum InputClickKey
+public class InputHandler : MonoBehaviour, IPointerClickHandler,
+    IPointerDownHandler, IPointerUpHandler, IBeginDragHandler,
+    IDragHandler, IEndDragHandler
 {
-    LEFT = 0,
-    RIGHT = 1,
-    MIDDLE = 2,
-}
-
-public class InputHandler : MonoBehaviour
-{
-    public Action<InputClickKey, Vector3> onClickDown;
-    public Action<InputClickKey, Vector3> onClickUp;
-    public Action onMouseEnter;
-    public Action onMouseExit;
+    public Action<PointerEventData> onClick;
+    public Action<PointerEventData> onClickDown;
+    public Action<PointerEventData> onClickUp;
+    public Action<PointerEventData> onBeginDrag;
+    public Action<PointerEventData> onDrag;
+    public Action<PointerEventData> onEndDrag;
     public bool trackLog;
 
-    public void ClickDown(InputClickKey key, Vector3 wp)
+    // click 表示按下和释放都在同一目标内完成才算一次 click
+    public void OnPointerClick(PointerEventData eventData)
     {
         if (trackLog)
-            Debug.Log($"{name} get click down > {key}");
-        onClickDown?.Invoke(key, wp);
+            Debug.Log($"{Utils.GetHierarchyPath(transform)} on pointer click");
+        onClick?.Invoke(eventData);
     }
 
-    public void ClickUp(InputClickKey key, Vector3 wp)
+    public void OnPointerDown(PointerEventData eventData)
     {
         if (trackLog)
-            Debug.Log($"{name} get click up > {key}");
-        onClickUp?.Invoke(key, wp);
+            Debug.Log($"{Utils.GetHierarchyPath(transform)} on pointer down");
+        onClickDown?.Invoke(eventData);
     }
 
-    public void MouseEnter()
+    public void OnPointerUp(PointerEventData eventData)
     {
         if (trackLog)
-            Debug.Log($"{name} mouse enter");
-        onMouseEnter?.Invoke();
+            Debug.Log($"{Utils.GetHierarchyPath(transform)} on pointer up");
+        onClickUp?.Invoke(eventData);
     }
 
-    public void MouseExit()
+    public void OnBeginDrag(PointerEventData eventData)
     {
         if (trackLog)
-            Debug.Log($"{name} mouse exit");
-        onMouseExit?.Invoke();
+            Debug.Log($"{Utils.GetHierarchyPath(transform)} on begin drag");
+        onBeginDrag?.Invoke(eventData);
+    }
+
+    // 检测 drag 时候这个是必须有的，否则 begin 和 end 无法触发
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (trackLog)
+            Debug.Log($"{Utils.GetHierarchyPath(transform)} on drag");
+        onDrag?.Invoke(eventData);
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (trackLog)
+            Debug.Log($"{Utils.GetHierarchyPath(transform)} on end drag");
+        onEndDrag?.Invoke(eventData);
     }
 }

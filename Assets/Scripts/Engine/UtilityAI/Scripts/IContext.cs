@@ -3,6 +3,8 @@ namespace AI.Utility
 {
     public interface IContext
     {
-        float GetActionCooldownTS();
+        float GetDecisionCooldownTS();
+        bool IsDebugLog();
+        string DebugLogId();
     }
 }

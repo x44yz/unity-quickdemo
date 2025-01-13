@@ -11,16 +11,16 @@ namespace AI.Utility
         public TMP_Text txtBool;
 
         private int preIdx;
-        private ActionDebug dbg;
+        private DecisionDebug dbg;
 
-        public void Show(AgentAI agent, Action action, int preIdx)
+        public void Show(AgentAI agent, Decision decision, int preIdx)
         {
             gameObject.SetActive(true);
 
             this.preIdx = preIdx;
-            dbg = agent.GetActionDebugInfo(action);
+            dbg = agent.GetDecisionDebugInfo(decision);
 
-            var pre = dbg.action.preconditions[preIdx];
+            var pre = dbg.decision.preconditions[preIdx];
             txtName.text = pre.name;
             Refresh();
         }

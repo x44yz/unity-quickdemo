@@ -17,7 +17,7 @@ namespace AI.Utility
         {
             btnClose.onClick.AddListener(()=>{
                 Hide();
-                monitor.panelActions.DeselectWidgetAction();
+                monitor.panelDecisions.DeselectWidgetDecision();
             });
         }
 
@@ -27,7 +27,7 @@ namespace AI.Utility
             tmpWidgetPrecondition.Hide();
         }
 
-        public void Show(AgentAI agent, Action act)
+        public void Show(AgentAI agent, Decision act)
         {
             gameObject.SetActive(true);
 

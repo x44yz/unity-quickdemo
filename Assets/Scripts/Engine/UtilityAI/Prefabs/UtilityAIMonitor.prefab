@@ -5020,7 +5020,7 @@ GameObject:
   - component: {fileID: 8320920488215744109}
   - component: {fileID: 8320920488215744108}
   m_Layer: 5
-  m_Name: TxtAction
+  m_Name: TxtDecision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5289,7 +5289,7 @@ GameObject:
   - component: {fileID: 8320920488348501439}
   - component: {fileID: 8320920488348501057}
   m_Layer: 5
-  m_Name: PanelActions
+  m_Name: PanelDecisions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5366,7 +5366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c74527c7b385fa4d8b8a1d1795ffeea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tmpWidgetAction: {fileID: 8320920488679482204}
+  tmpWidgetDecision: {fileID: 8320920488679482204}
   btnClose: {fileID: 3569304853167389485}
 --- !u!1 &8320920488368797331
 GameObject:
@@ -5612,11 +5612,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panelAgents: {fileID: 8320920489658270952}
-  panelActions: {fileID: 8320920488348501057}
+  panelDecisions: {fileID: 8320920488348501057}
   panelPreconditions: {fileID: 222408513018059370}
   panelConsiderations: {fileID: 8320920489104552010}
   btnMonitor: {fileID: 8554049933154371937}
   autoShowAgents: 1
+  showHideAgents: 0
   scoreFormat: F3
 --- !u!1 &8320920488547576273
 GameObject:
@@ -5858,7 +5859,7 @@ GameObject:
   - component: {fileID: 8320920488679482205}
   - component: {fileID: 8320920488679482204}
   m_Layer: 5
-  m_Name: TMP_WidgetAction
+  m_Name: TMP_WidgetDecision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6381,7 +6382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txtName: {fileID: 8320920488296601659}
-  txtAction: {fileID: 8320920488215744108}
+  txtDecision: {fileID: 8320920488215744108}
   btn: {fileID: 8320920489496038811}
   imgBG: {fileID: 8320920489496038808}
   selectedBgColor: {r: 0.6901961, g: 0.26666668, b: 0.26666668, a: 1}

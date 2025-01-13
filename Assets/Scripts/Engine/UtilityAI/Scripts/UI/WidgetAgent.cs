@@ -9,7 +9,7 @@ namespace AI.Utility
     public class WidgetAgent : MonoBehaviour
     {
         public TMP_Text txtName;
-        public TMP_Text txtAction;
+        public TMP_Text txtDecision;
         public Button btn;
         public Image imgBG;
         public Color selectedBgColor;
@@ -33,10 +33,10 @@ namespace AI.Utility
             this.agent = agent;
             agent.debugScore = true;
 
-            agent.onActionChanged += OnActionChanged;
+            agent.onDecisionChanged += OnDecisionChanged;
 
             txtName.text = agent.name;
-            SetAction(agent.curAction);
+            SetDecision(agent.curDecision);
         }
 
         public void Hide()
@@ -44,16 +44,16 @@ namespace AI.Utility
             if (agent != null)
             {
                 agent.debugScore = false;
-                agent.onActionChanged -= OnActionChanged;
+                agent.onDecisionChanged -= OnDecisionChanged;
                 agent = null;
             }
 
             gameObject.SetActive(false);
         }
 
-        private void OnActionChanged(Action act)
+        private void OnDecisionChanged(Decision act)
         {
-            SetAction(act);
+            SetDecision(act);
         }
 
         public void Select()
@@ -66,12 +66,12 @@ namespace AI.Utility
             imgBG.color = normalBgColor;
         }
 
-        private void SetAction(Action act)
+        private void SetDecision(Decision decision)
         {
-            if (act != null)
-                txtAction.text = act.name;
+            if (decision != null)
+                txtDecision.text = decision.name;
             else
-                txtAction.text = "null";
+                txtDecision.text = "null";
         }
     }
 }

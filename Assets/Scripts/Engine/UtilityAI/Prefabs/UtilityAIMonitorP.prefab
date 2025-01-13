@@ -450,7 +450,7 @@ GameObject:
   - component: {fileID: 2216159646889717907}
   - component: {fileID: 2216159646889717906}
   m_Layer: 5
-  m_Name: TxtAction
+  m_Name: TxtDecision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -690,11 +690,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panelAgents: {fileID: 2216159648668318230}
-  panelActions: {fileID: 2216159647025101503}
+  panelDecisions: {fileID: 2216159647025101503}
   panelPreconditions: {fileID: 2270511827203125809}
   panelConsiderations: {fileID: 2216159648181685940}
   btnMonitor: {fileID: 1949688635249588127}
   autoShowAgents: 1
+  showHideAgents: 0
   scoreFormat: F3
 --- !u!1 &2216159646959527103
 GameObject:
@@ -843,7 +844,7 @@ GameObject:
   - component: {fileID: 2216159647025101633}
   - component: {fileID: 2216159647025101503}
   m_Layer: 5
-  m_Name: PanelActions
+  m_Name: PanelDecisions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -920,7 +921,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c74527c7b385fa4d8b8a1d1795ffeea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tmpWidgetAction: {fileID: 2216159647758720418}
+  tmpWidgetDecision: {fileID: 2216159647758720418}
   btnClose: {fileID: 21942277881533165}
 --- !u!1 &2216159647200678842
 GameObject:
@@ -1414,7 +1415,7 @@ GameObject:
   - component: {fileID: 2216159647758720419}
   - component: {fileID: 2216159647758720418}
   m_Layer: 5
-  m_Name: TMP_WidgetAction
+  m_Name: TMP_WidgetDecision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2015,7 +2016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txtName: {fileID: 2216159646959527233}
-  txtAction: {fileID: 2216159646889717906}
+  txtDecision: {fileID: 2216159646889717906}
   btn: {fileID: 2216159648033698661}
   imgBG: {fileID: 2216159648033698662}
   selectedBgColor: {r: 0.6901961, g: 0.26666668, b: 0.26666668, a: 1}

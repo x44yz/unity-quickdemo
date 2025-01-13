@@ -38,99 +38,99 @@ public class InputSystem : MonoBehaviour
         //     return;
         // }
 
-        if (raycast2d)
-            TickRaycast2D(dt);
-        if (raycast3d)
-            TickRaycast3D(dt);
+        // if (raycast2d)
+        //     TickRaycast2D(dt);
+        // if (raycast3d)
+        //     TickRaycast3D(dt);
     }
 
-    private void TickRaycast2D(float dt)
-    {
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
-        {
-            if (EventSystem.current.IsPointerOverGameObject())
-                return;
+    // private void TickRaycast2D(float dt)
+    // {
+    //     if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+    //     {
+    //         if (EventSystem.current.IsPointerOverGameObject())
+    //             return;
 
-            var wp = GetInputWorld(Input.mousePosition);
-            clickDownWPos = wp;
-            // Debug.Log("xx-- set click down wpos");
+    //         var wp = GetInputWorld(Input.mousePosition);
+    //         clickDownWPos = wp;
+    //         // Debug.Log("xx-- set click down wpos");
 
-            Debug.DrawLine(Camera.main.transform.position, wp, Color.blue, 10);
-            // Debug.Log("xx-- screen pos > " + Input.mousePosition + " - " + Screen.width + " - " + Screen.height);
-            RaycastHit2D hit = Physics2D.Raycast(wp, Vector2.zero, 1000f);
-            if (hit.collider != null)
-            {
-                // Debug.Log("xx-- hit dist > " + hit.distance);
-                // Debug.DrawLine(Camera.main.transform.position, hit.point, Color.blue, 10);
-                var handler = hit.collider.GetComponent<InputHandler>();
-                if (handler != null)
-                {
-                    var k = Input.GetMouseButtonDown(0) ? InputClickKey.LEFT : InputClickKey.RIGHT;
-                    handler.ClickDown(k, wp);
-                }
-            }
-        }
+    //         Debug.DrawLine(Camera.main.transform.position, wp, Color.blue, 10);
+    //         // Debug.Log("xx-- screen pos > " + Input.mousePosition + " - " + Screen.width + " - " + Screen.height);
+    //         RaycastHit2D hit = Physics2D.Raycast(wp, Vector2.zero, 1000f);
+    //         if (hit.collider != null)
+    //         {
+    //             // Debug.Log("xx-- hit dist > " + hit.distance);
+    //             // Debug.DrawLine(Camera.main.transform.position, hit.point, Color.blue, 10);
+    //             var handler = hit.collider.GetComponent<InputHandler>();
+    //             if (handler != null)
+    //             {
+    //                 var k = Input.GetMouseButtonDown(0) ? InputClickKey.LEFT : InputClickKey.RIGHT;
+    //                 handler.ClickDown(k, wp);
+    //             }
+    //         }
+    //     }
 
-        if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
-        {
-            var wp = GetInputWorld(Input.mousePosition);
-            // Debug.Log("xx-- screen pos > " + Input.mousePosition + " - " + Screen.width + " - " + Screen.height);
-            RaycastHit2D hit = Physics2D.Raycast(wp, Vector2.zero, 1000f);
-            if (hit.collider != null)
-            {
-                // Debug.Log("xx-- hit dist > " + hit.distance);
-                // Debug.DrawLine(Camera.main.transform.position, hit.point, Color.blue, 10);
-                var handler = hit.collider.GetComponent<InputHandler>();
-                if (handler != null)
-                {
-                    var k = Input.GetMouseButtonUp(0) ? InputClickKey.LEFT : InputClickKey.RIGHT;
-                    handler.ClickUp(k, wp);
-                }
-            }
-        }
-    }
+    //     if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
+    //     {
+    //         var wp = GetInputWorld(Input.mousePosition);
+    //         // Debug.Log("xx-- screen pos > " + Input.mousePosition + " - " + Screen.width + " - " + Screen.height);
+    //         RaycastHit2D hit = Physics2D.Raycast(wp, Vector2.zero, 1000f);
+    //         if (hit.collider != null)
+    //         {
+    //             // Debug.Log("xx-- hit dist > " + hit.distance);
+    //             // Debug.DrawLine(Camera.main.transform.position, hit.point, Color.blue, 10);
+    //             var handler = hit.collider.GetComponent<InputHandler>();
+    //             if (handler != null)
+    //             {
+    //                 var k = Input.GetMouseButtonUp(0) ? InputClickKey.LEFT : InputClickKey.RIGHT;
+    //                 handler.ClickUp(k, wp);
+    //             }
+    //         }
+    //     }
+    // }
 
-    private void TickRaycast3D(float dt)
-    {
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
-        {
-            if (EventSystem.current.IsPointerOverGameObject())
-                return;
+    // private void TickRaycast3D(float dt)
+    // {
+    //     if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+    //     {
+    //         if (EventSystem.current.IsPointerOverGameObject())
+    //             return;
 
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            // Debug.Log("xx-- screen pos > " + Input.mousePosition + " - " + Screen.width + " - " + Screen.height);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 1000f, layerMask.value))
-            {
-                // Debug.Log("xx-- hit dist > " + hit.distance);
-                // Debug.DrawLine(Camera.main.transform.position, hit.point, Color.blue, 10);
-                var handler = hit.collider.GetComponent<InputHandler>();
-                if (handler != null)
-                {
-                    var k = Input.GetMouseButtonDown(0) ? InputClickKey.LEFT : InputClickKey.RIGHT;
-                    handler.ClickDown(k, hit.point);
-                }
-            }
-        }
+    //         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //         // Debug.Log("xx-- screen pos > " + Input.mousePosition + " - " + Screen.width + " - " + Screen.height);
+    //         RaycastHit hit;
+    //         if (Physics.Raycast(ray, out hit, 1000f, layerMask.value))
+    //         {
+    //             // Debug.Log("xx-- hit dist > " + hit.distance);
+    //             // Debug.DrawLine(Camera.main.transform.position, hit.point, Color.blue, 10);
+    //             var handler = hit.collider.GetComponent<InputHandler>();
+    //             if (handler != null)
+    //             {
+    //                 var k = Input.GetMouseButtonDown(0) ? InputClickKey.LEFT : InputClickKey.RIGHT;
+    //                 handler.ClickDown(k, hit.point);
+    //             }
+    //         }
+    //     }
 
-        if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
-        {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            // Debug.Log("xx-- screen pos > " + Input.mousePosition + " - " + Screen.width + " - " + Screen.height);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 1000f, layerMask.value))
-            {
-                // Debug.Log("xx-- hit dist > " + hit.distance);
-                // Debug.DrawLine(Camera.main.transform.position, hit.point, Color.blue, 10);
-                var handler = hit.collider.GetComponent<InputHandler>();
-                if (handler != null)
-                {
-                    var k = Input.GetMouseButtonUp(0) ? InputClickKey.LEFT : InputClickKey.RIGHT;
-                    handler.ClickUp(k, hit.point);
-                }
-            }
-        }
-    }
+    //     if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
+    //     {
+    //         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //         // Debug.Log("xx-- screen pos > " + Input.mousePosition + " - " + Screen.width + " - " + Screen.height);
+    //         RaycastHit hit;
+    //         if (Physics.Raycast(ray, out hit, 1000f, layerMask.value))
+    //         {
+    //             // Debug.Log("xx-- hit dist > " + hit.distance);
+    //             // Debug.DrawLine(Camera.main.transform.position, hit.point, Color.blue, 10);
+    //             var handler = hit.collider.GetComponent<InputHandler>();
+    //             if (handler != null)
+    //             {
+    //                 var k = Input.GetMouseButtonUp(0) ? InputClickKey.LEFT : InputClickKey.RIGHT;
+    //                 handler.ClickUp(k, hit.point);
+    //             }
+    //         }
+    //     }
+    // }
 
     // private InputHandler lastCursorHandler = null;
     // private void TickCursorType(float dt)

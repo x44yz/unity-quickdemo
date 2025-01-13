@@ -10,20 +10,20 @@ namespace AI.Utility
         public TMP_Text txtName;
         public TMP_Text txtScore;
 
-        private Action action;
+        private Decision decision;
         private int conIdx;
-        private ActionDebug dbg;
+        private DecisionDebug dbg;
 
         public string scoreFormat => UtilityAIMonitor.Inst.scoreFormat;
 
-        public void Show(AgentAI agent, Action act, int conIdx)
+        public void Show(AgentAI agent, Decision act, int conIdx)
         {
             gameObject.SetActive(true);
 
-            this.action = act;
+            this.decision = act;
             this.conIdx = conIdx;
 
-            dbg = agent.GetActionDebugInfo(act);
+            dbg = agent.GetDecisionDebugInfo(act);
 
             var con = act.considerations[conIdx];
             txtName.text = con.name;
@@ -32,13 +32,13 @@ namespace AI.Utility
 
         public void Hide()
         {
-            action = null;
+            decision = null;
             gameObject.SetActive(false);
         }
 
         public void Refresh()
         {
-            if (gameObject.activeSelf == false || action == null)
+            if (gameObject.activeSelf == false || decision == null)
                 return;
 
             txtScore.text = dbg.GetConsiderationScore(conIdx).ToString(scoreFormat);
