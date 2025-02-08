@@ -2,7 +2,12 @@ fileFormatVersion: 2
 guid: f464cb8b14b8b3940890ff9409ce414f
 TextureImporter:
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: prototype_texture
+    second: {fileID: 2100000, guid: e30dda7a15dd7f14eaf0eebac1142e65, type: 2}
   serializedVersion: 11
   mipmaps:
     mipMapMode: 0
