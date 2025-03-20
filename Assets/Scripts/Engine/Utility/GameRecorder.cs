@@ -13,10 +13,17 @@ public class GameRecorder : MonoBehaviour
     private const string PREFKEY_AUTORECORD_TIME = "AutoRecordTime";
 
     public bool autoRecord = true;
-    public int intervalSecs = 86400;
+    public float intervalHours = 24;
 
     [Header("RUNTIME")]
     public string storeKey;
+
+    public int intervalSecs
+    {
+        get {
+            return Mathf.RoundToInt(intervalHours * 3600);
+        }
+    }
 
     private void Awake() 
     {

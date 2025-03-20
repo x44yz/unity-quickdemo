@@ -47,12 +47,12 @@ public class CoroutineUtil : MonoBehaviour
         callback.Invoke();
     }
 
-    public void DelayTime(float seconds, Action callback)
+    public void DelaySeconds(float seconds, Action callback)
     {
-        StartCoroutine(_DelayTime(seconds, callback));
+        StartCoroutine(_DelaySeconds(seconds, callback));
     }
 
-    public IEnumerator _DelayTime(float seconds, Action callback)
+    public IEnumerator _DelaySeconds(float seconds, Action callback)
     {
         yield return new WaitForSeconds(seconds);
         

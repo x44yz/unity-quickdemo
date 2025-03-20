@@ -174,4 +174,27 @@ public static partial class Utils
         }
         return comp;
     }
+
+    public static Bounds GetBounds(GameObject obj)
+    {
+        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+        if (renderers == null || renderers.Length == 0)
+        {
+            Debug.LogError("cant find any renders on obj");
+            return new Bounds();
+        }
+
+        Bounds compositeBounds = new Bounds(renderers[0].bounds.center, Vector3.zero);
+        foreach (Renderer renderer in renderers)
+        {
+            compositeBounds.Encapsulate(renderer.bounds);
+        }
+
+        Debug.Log("Composite Bounds Center: " + compositeBounds.center);
+        Debug.Log("Composite Bounds Size: " + compositeBounds.size);
+        Debug.Log("Composite Bounds Min: " + compositeBounds.min);
+        Debug.Log("Composite Bounds Max: " + compositeBounds.max);
+        return compositeBounds;
+    }
+
 }

@@ -19,7 +19,7 @@ public static class SteeringBehavior
 
     public static Vector3 Arrival(ISteeringAgent agent, Vector3 targetPos)
     {
-        Vector3 dir = (targetPos - agent.steeringPos).ZeroY();
+        Vector3 dir = (targetPos - agent.steeringPos).SetY(0f);
         var desiredVelocity = Vector3.zero;
 
         float dist = dir.magnitude;
@@ -71,7 +71,7 @@ public static class SteeringBehavior
         if (obstacle == null)
             return Vector3.zero;
 
-        var avoidance = (ahead - obstacle.steeringPos).ZeroY();
+        var avoidance = (ahead - obstacle.steeringPos).SetY(0f);
         avoidance = avoidance.normalized * agent.steeringAvoidForce;
         // Debug.DrawLine(obstacle.steeringPos, obstacle.steeringPos + avoidance, Color.red, 0.1f);
         return avoidance;

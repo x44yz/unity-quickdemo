@@ -8,12 +8,14 @@ public class InputHandler : MonoBehaviour, IPointerClickHandler,
     IPointerDownHandler, IPointerUpHandler, IBeginDragHandler,
     IDragHandler, IEndDragHandler
 {
-    public Action<PointerEventData> onClick;
-    public Action<PointerEventData> onClickDown;
-    public Action<PointerEventData> onClickUp;
-    public Action<PointerEventData> onBeginDrag;
-    public Action<PointerEventData> onDrag;
-    public Action<PointerEventData> onEndDrag;
+    public delegate void PointerEventDelegate(PointerEventData pointerEvent);
+
+    public PointerEventDelegate onClick;
+    public PointerEventDelegate onClickDown;
+    public PointerEventDelegate onClickUp;
+    public PointerEventDelegate onBeginDrag;
+    public PointerEventDelegate onDrag;
+    public PointerEventDelegate onEndDrag;
     public bool trackLog;
 
     // click 表示按下和释放都在同一目标内完成才算一次 click

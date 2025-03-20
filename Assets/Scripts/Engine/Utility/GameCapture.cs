@@ -12,13 +12,27 @@ public class GameCapture : MonoBehaviour
     private const string PREFKEY_AUTOCAPTURE_LASTTIME = "AutoCaptureLastTime";
 
     public bool autoCapture = true;
-    public int autoCaptureInterval = 3600;
-    public int autoCaptureDelay = 0;
+    public float intervalHours = 24;
+    public float playDelayMinutes = 1;
     public bool logCapture = false;
 
     [Header("RUNTIME")]
     public string atuoCaptureStoreKey;
     public float autoCaptureCD;
+
+    public int autoCaptureInterval
+    {
+        get {
+            return Mathf.RoundToInt(intervalHours * 3600f);
+        }
+    }
+
+    public int autoCaptureDelay
+    {
+        get {
+            return Mathf.RoundToInt(playDelayMinutes * 60f);
+        }
+    }
 
     public static void StartCapture(bool log)
     {

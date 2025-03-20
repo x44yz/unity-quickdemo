@@ -49,10 +49,10 @@ public class UIWidget : MonoBehaviour
         OnUpdate(dt);
     }
 
-    private void LateUpdate()
-    {
-        OnLateUpdate();
-    }
+    // private void LateUpdate()
+    // {
+    //     OnLateUpdate();
+    // }
 
     protected virtual void OnAwake()
     {
@@ -62,9 +62,9 @@ public class UIWidget : MonoBehaviour
     {
     }
 
-    protected virtual void OnLateUpdate()
-    {
-    }
+    // protected virtual void OnLateUpdate()
+    // {
+    // }
 
     public virtual void Init()
     {
