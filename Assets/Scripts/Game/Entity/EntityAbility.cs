@@ -7,7 +7,6 @@ public class EntityAbility : MonoBehaviour
     public static ResSystem sRes => GameMgr.Inst.sRes;
     public static PageHUD hud => GameMgr.Inst.hud;
     public static TimeSystem sTime => GameMgr.Inst.sTime;
-    public static Player plr => GameMgr.Inst.plr;
 
     [SerializeField]private bool active;
     public bool IsActive => active;

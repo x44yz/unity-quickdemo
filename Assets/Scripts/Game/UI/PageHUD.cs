@@ -4,10 +4,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class PageHUD : UIWidget
+public class PageHUD : GUIWidget
 {
-    public static GameMgr game => GameMgr.Inst;
-
     public TMP_Text txtPaused;
 
     public override void Init()

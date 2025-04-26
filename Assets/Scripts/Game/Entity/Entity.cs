@@ -8,7 +8,6 @@ public class Entity : MonoBehaviour
     public static CameraSystem sCamera => GameMgr.Inst.sCamera;
     public static TimeSystem sTime => GameMgr.Inst.sTime;
     public static PageHUD hud => GameMgr.Inst.hud;
-    public static Player plr => GameMgr.Inst.plr;
     public static InputSystem sInput => GameMgr.Inst.sInput;
 
     public static int ENTITY_UID_GEN = 1000;

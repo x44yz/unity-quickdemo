@@ -85,3 +85,37 @@ public enum ValueType
     CONSTANT = 0,
     PERCENT = 1,
 }
+public enum Operator
+{
+    EQUAL = 0,
+    NOTEQUAL = 1,
+    GREATER = 2,
+    GREATER_OR_EQUAL = 3,
+    LESS = 4,
+    LESS_OR_EQUAL = 5,
+}
+
+public enum Direction
+{
+    NONE = -1,
+    UP = 0,
+    RIGHT = 1,
+    DOWN = 2,
+    LEFT = 3,
+}
+public enum ResolutionType
+{
+    FULLSCREEN = 0,
+    R2560X1440 = 1,
+    R1920X1080 = 2,
+    R1366X768 = 3,
+}
+
+public static class LayerDef
+{
+    public const string MONSTER = "Monster";
+
+    public static readonly int IDX_MONSTER = LayerMask.NameToLayer(MONSTER);
+
+    public static readonly int MASK_MONSTER = LayerMask.GetMask(MONSTER);
+}
