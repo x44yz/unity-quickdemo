@@ -45,18 +45,18 @@ public class GameMgr : MonoBehaviour
 
     void Start()
     {
-        sSave.Init();
+        // sSave.Init();
         sRes.Init();
         gCtx.Init();
         sAudio.Init();
         sEntity.Init();
-        sLocal.Init();
+        // sLocal.Init();
         sUI.Init();
 
-        if (sSave.hasArchive == false)
-            sSave.SaveResolutionType(sRes.miscCfg.initResolutionType);
-        var rt = sSave.GetResolutionType();
-        SetResolution(rt);
+        // if (sSave.hasArchive == false)
+        //     sSave.SaveResolutionType(sRes.miscCfg.initResolutionType);
+        // var rt = sSave.GetResolutionType();
+        // SetResolution(rt);
 
         SetGameState(GameState.MAINMENU);
     }
