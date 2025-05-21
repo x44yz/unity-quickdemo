@@ -2,7 +2,17 @@
 Captures/
 Assets/_Raws~/
 Recordings/
+Assets/_Temp/
+Assets/_Temp.meta
 *.blend1
+!Assets/OPS/**/*.pdb
+!Assets/OPS/**/*.pdb.meta
+Assets/OPS/Obfuscator/Log/
+Assets/AddressableAssetsData/link.**
+Assets/AddressableAssetsData/Windows/
+Assets/AddressableAssetsData/Windows.meta
+Assets/AddressableAssetsData/Android/
+Assets/AddressableAssetsData/Android.meta
 
 [Ll]ibrary/
 [Tt]emp/
