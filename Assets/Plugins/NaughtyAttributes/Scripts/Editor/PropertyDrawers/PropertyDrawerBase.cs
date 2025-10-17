@@ -33,11 +33,13 @@ namespace NaughtyAttributes.Editor
             // Call OnValueChanged callbacks
             if (EditorGUI.EndChangeCheck())
             {
+                OnValueChanged_Internal(property);
                 PropertyUtility.CallOnValueChangedCallbacks(property);
             }
         }
 
         protected abstract void OnGUI_Internal(Rect rect, SerializedProperty property, GUIContent label);
+        protected virtual void OnValueChanged_Internal(SerializedProperty property) {}
 
         sealed override public float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {

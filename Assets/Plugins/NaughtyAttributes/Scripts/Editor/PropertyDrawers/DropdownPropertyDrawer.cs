@@ -173,5 +173,11 @@ namespace NaughtyAttributes.Editor
 
             return elementType;
         }
+
+        protected override void OnValueChanged_Internal(SerializedProperty property)
+        {
+            EditorUtility.SetDirty(property.serializedObject.targetObject);
+            property.serializedObject.ApplyModifiedProperties();
+        }
     }
 }
