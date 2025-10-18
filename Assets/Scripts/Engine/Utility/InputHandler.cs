@@ -6,9 +6,9 @@ using UnityEngine.EventSystems;
 
 public class InputHandler : MonoBehaviour, IPointerClickHandler,
     IPointerDownHandler, IPointerUpHandler, IBeginDragHandler,
-    IDragHandler, IEndDragHandler
+    IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public delegate void PointerEventDelegate(PointerEventData pointerEvent);
+    public delegate void PointerEventDelegate(PointerEventData eventData);
 
     public PointerEventDelegate onClick;
     public PointerEventDelegate onClickDown;
@@ -16,6 +16,8 @@ public class InputHandler : MonoBehaviour, IPointerClickHandler,
     public PointerEventDelegate onBeginDrag;
     public PointerEventDelegate onDrag;
     public PointerEventDelegate onEndDrag;
+    public PointerEventDelegate onEnter;
+    public PointerEventDelegate onExit;
     public bool trackLog;
 
     // click 表示按下和释放都在同一目标内完成才算一次 click
@@ -60,5 +62,19 @@ public class InputHandler : MonoBehaviour, IPointerClickHandler,
         if (trackLog)
             Debug.Log($"{Utils.GetHierarchyPath(transform)} on end drag");
         onEndDrag?.Invoke(eventData);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (trackLog)
+            Debug.Log($"{Utils.GetHierarchyPath(transform)} on pointer enter");
+        onEnter?.Invoke(eventData);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (trackLog)
+            Debug.Log($"{Utils.GetHierarchyPath(transform)} on pointer exit");
+        onExit?.Invoke(eventData);
     }
 }
