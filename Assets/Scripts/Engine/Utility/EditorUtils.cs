@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 public static class EditorUtils
 {
@@ -15,9 +16,9 @@ public static class EditorUtils
         AssetDatabase.Refresh();
     }
 
-    public static void RenameAsset(UnityEngine.Object asset, string name)
+    public static async void RenameAsset(UnityEngine.Object asset, string name)
     {
-        try
+       try
         {
             if (EditorUtility.IsDirty(asset))
             {
@@ -34,17 +35,21 @@ public static class EditorUtils
             
             // Debug.Log($"xx-- path > {path}");
             // Debug.Log($"xx-- npath > {npath}");
+            Selection.activeObject = null;
             File.Move(path, npath);
-            AssetDatabase.Refresh();
 
+            // 延时目的是防止 gui 刷新 button 时候目标丢失  
+            // 或者使用 EditorApplication.delayCall
+            await System.Threading.Tasks.Task.Delay(100);
+
+            AssetDatabase.Refresh();
             asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(nAssetPath);
             Selection.activeObject = asset;
             asset.name = name;
             EditorUtility.SetDirty(asset);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-
-            Debug.Log($"success rename asset > {name}");
+            Debug.Log($"Success rename asset > {name}");
         }
         catch (Exception ex)
         {
