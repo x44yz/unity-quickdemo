@@ -6,7 +6,15 @@ public class UIWidget : MonoBehaviour
 {
     public bool isShow => gameObject.activeSelf;
 
-    protected RectTransform rectTF;
+    private RectTransform _rectTF;
+    protected RectTransform rectTF
+    {
+        get {
+            if (_rectTF == null)
+                _rectTF = GetComponent<RectTransform>();
+            return _rectTF;
+        }
+    }
 
     public Vector2 screenPos
     {
@@ -36,33 +44,24 @@ public class UIWidget : MonoBehaviour
         set { anchorPos = new Vector2(anchorPosX, value); }
     }
 
-    private void Awake()
-    {
-        rectTF = GetComponent<RectTransform>();
-
-        OnAwake();
-    }
-
-    private void Update()
-    {
-        float dt = Time.deltaTime;
-        OnUpdate(dt);
-    }
-
-    // private void LateUpdate()
+    // private void Awake()
     // {
-    //     OnLateUpdate();
+    //     rectTF = GetComponent<RectTransform>();
+
+    //     OnAwake();
     // }
 
-    protected virtual void OnAwake()
-    {
-    }
+    // private void Update()
+    // {
+    //     float dt = Time.deltaTime;
+    //     OnUpdate(dt);
+    // }
 
-    protected virtual void OnUpdate(float dt)
-    {
-    }
+    // protected virtual void OnAwake()
+    // {
+    // }
 
-    // protected virtual void OnLateUpdate()
+    // protected virtual void OnUpdate(float dt)
     // {
     // }
 

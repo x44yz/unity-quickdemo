@@ -11,7 +11,7 @@ public static partial class Utils
 {
     private static StringBuilder sb = new StringBuilder();
 
-    public static Color Alpha(this Color color, float alpha)
+    public static Color SetAlpha(this Color color, float alpha)
     {
         color.a = alpha;
         return color;

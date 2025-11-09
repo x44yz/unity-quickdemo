@@ -11,12 +11,16 @@ using UnityEditor;
 public class CStat : Consideration
 {
     public Stat stat;
+    public Stat statMax;
     public AnimationCurve curve;
 
     public override float Score(IContext ctx)
     {
         var actx = ctx as ActorContext;
-        float t = actx.GetStatNOR(stat);
+        var actor = actx.actor;
+        float cur = actor.GetStatVal(stat);
+        float max = actor.GetStatVal(statMax);
+        float t = Mathf.Clamp01(cur / max);
         return curve.Evaluate(t);
     }
 

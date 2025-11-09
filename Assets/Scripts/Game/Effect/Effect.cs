@@ -1,36 +1,72 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using NaughtyAttributes;
-using UnityEditor;
-#endif
 
-// [CreateAssetMenu(fileName = "IC_ID", menuName = "CONFIG/Item")]
-public abstract class Effect : ScriptableObject
+// public enum EffectType
+// {
+//     Positive = 0,
+//     Negative = 1,
+// }
+
+public abstract class Effect
 {
-    public EffectId effId;
-    public abstract string Desc();
-    public abstract System.Type InstType();
+    public virtual Stat GetEffectStat() => Stat.MoveSpeed;
+    public virtual Status GetApplyStatus() => Status.None;
 
-#if UNITY_EDITOR
-    [Button("RemoveFromAsset", EButtonEnableMode.Editor)]
-    private void RemoveFromAsset()
+    public Entity owner { get; set; }
+    // public int stack { get; set; } // 叠加的层数
+    // public virtual float GetBonus() => 0f;
+    // public virtual float GetScale() => 1f;
+    public bool isActive { get; protected set; }
+
+    public virtual void Init(EffectSO cfg)
     {
-        string mainAssetPath = AssetDatabase.GetAssetPath(this);
-        var mainAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(mainAssetPath);
-        if (mainAsset.GetInstanceID() == this.GetInstanceID())
+    }
+
+    public void Tick(float dt)
+    {
+        if (isActive == false)
+            return;
+
+        OnTick(dt);
+    }
+
+    // protected virtual void ApplyInstant(Entity target)
+    // {
+    // }
+
+    public void Activate()
+    {
+        if (isActive)
         {
-            Debug.LogWarning($"this main asset, cant remove");
+            Debug.LogWarning($"effect had actived");
             return;
         }
 
-        AssetDatabase.RemoveObjectFromAsset(this);
-        // 延时执行，否则会导入警告
-        EditorApplication.delayCall += ()=> {
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-        };
+        isActive = true;
+        OnActivate();
     }
-#endif
+
+    public void Deactivate()
+    {
+        if (!isActive)
+        {
+            Debug.LogWarning($"effect had deactived");
+            return;
+        }
+
+        isActive = false;
+        OnDeactivate();
+    }
+
+    // public void ModifyStack(int val)
+    // {
+    //     stack = Mathf.Max(0, stack + val);
+    //     if (stack <= 0)
+    //         Deactivate();
+    // }
+
+    protected virtual void OnTick(float dt) {}
+    protected virtual void OnActivate() {}
+    protected virtual void OnDeactivate() {}
 }

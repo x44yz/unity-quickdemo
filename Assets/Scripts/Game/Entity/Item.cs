@@ -1,15 +1,12 @@
 using System;
 using UnityEngine;
 
-// [DisallowMultipleComponent]
-[Serializable]
-public class Item
+// itme object  
+[DisallowMultipleComponent]
+public class Item : Entity
 {
-    public static ResSystem sRes => GameMgr.Inst.sRes;
-    
     public static int ITEM_UID_GEN = 1000;
 
-    public int uid;
     public ItemId id;
     public int count;
 
@@ -20,7 +17,7 @@ public class Item
         this.count = count;
     }
 
-    public ItemCfg cfg => sRes.GetItemCfg(id);
+    public ItemSO cfg => sRes.GetItemSO(id);
     public ItemType itemType => cfg.itemType;
     public Sprite spr => cfg.spr;
 

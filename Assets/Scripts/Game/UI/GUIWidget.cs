@@ -13,16 +13,4 @@ public class GUIWidget : UIWidget
     public static LocalSystem sLocal => GameMgr.Inst.sLocal;
     public static SaveSystem sSave => GameMgr.Inst.sSave;
     public static AudioSystem sAudio => GameMgr.Inst.sAudio;
-
-    public bool showTopPage;
-
-    public override void Show()
-    {
-        base.Show();
-
-        if (showTopPage)
-        {
-            transform.SetAsLastSibling();
-        }
-    }
 }

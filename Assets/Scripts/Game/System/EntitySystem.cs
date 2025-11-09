@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EntitySystem : GameBehaviour
+public class EntitySystem : MonoBehaviour
 {
     public Dictionary<int, Entity> All = new Dictionary<int, Entity>();
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class PageHUD : GUIWidget
+public class PageHUD : GUIPage
 {
     public TMP_Text txtPaused;
 

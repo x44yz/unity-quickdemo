@@ -16,14 +16,14 @@ public class AudioSystem : MonoBehaviour
     public float volume;
 
     private Queue<AudioSource> asourcePool;
-    private Dictionary<AudioId, float> audioCooldown;
+    private Dictionary<string, float> audioCooldown;
 
     public void Init()
     {
         asourcePool = new Queue<AudioSource>();
         asourcePool.Enqueue(tmpASource);
 
-        audioCooldown = new Dictionary<AudioId, float>();
+        audioCooldown = new Dictionary<string, float>();
 
         SetVolume(GameMgr.Inst.sSave.GetVolume());
     }
@@ -57,12 +57,12 @@ public class AudioSystem : MonoBehaviour
         asourcePool.Enqueue(audioSource);
     }
 
-    public void PlayAuido(AudioId audioId, Vector3? wpos = null)
+    public void PlayAuido(string audioId, Vector3? wpos = null)
     {
-        if (audioId == AudioId.NONE)
+        if (string.IsNullOrEmpty(audioId))
             return;
 
-        var cfg = sRes.GetAudioCfg(audioId);
+        var cfg = sRes.GetAudioSO(audioId);
         // check cooldown
         if (audioCooldown.ContainsKey(audioId) == false)
             audioCooldown[audioId] = 0;
@@ -90,12 +90,12 @@ public class AudioSystem : MonoBehaviour
         });
     }
 
-    public void PlayUIAudio(AudioId audioId, float? overrideVolumeScale = null)
+    public void PlayUIAudio(string audioId, float? overrideVolumeScale = null)
     {
-        if (audioId == AudioId.NONE)
+        if (string.IsNullOrEmpty(audioId))
             return;
 
-        var cfg = sRes.GetAudioCfg(audioId);
+        var cfg = sRes.GetAudioSO(audioId);
         float volumeScale = cfg.volumeScale;
         if (overrideVolumeScale != null)
             volumeScale = overrideVolumeScale.Value;

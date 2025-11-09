@@ -1,110 +1,188 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
-public class Entity : MonoBehaviour
+public partial class Entity : GameBehaviour
 {
-    public static ResSystem sRes => GameMgr.Inst.sRes;
-    public static CameraSystem sCamera => GameMgr.Inst.sCamera;
-    public static TimeSystem sTime => GameMgr.Inst.sTime;
-    public static PageHUD hud => GameMgr.Inst.hud;
-    public static InputSystem sInput => GameMgr.Inst.sInput;
+    public EntityType entityType;
 
-    public static int ENTITY_UID_GEN = 1000;
-
-    [Header("RUNTIME")]
+    [HorizontalLine(color: EColor.Red)]
     public int uid = Defs.INVALID_UID;
-    public EntityType entityType = EntityType.INVALID;
-    public int id;
-    protected List<EntityAbility> abilities;
+    protected bool willDestory = false;
 
-    public Vector2 pos
+    public bool isAlive => !isDestoryed;
+    public bool isDestoryed => willDestory;
+
+    public override Vector3 pos
     {
-        get { return transform.position; }
-        set { transform.position = value; }
-    }
-
-    public Vector3 forward
-    {
-        get { return transform.forward; }
-        set { transform.forward = value; }
-    }
-
-    public virtual bool isActive => true;
-
-    public virtual void Init(int id)
-    {
-        uid = ENTITY_UID_GEN++;
-        this.id = id;
-        // if (id == EntityId.NONE)
-        //     Debug.LogError($"{name} invalid entity id > {id}");
-        name = $"{name}_{id}_{uid}";
-
-        abilities = new List<EntityAbility>();
-        var abs = GetComponentsInChildren<EntityAbility>();
-        if (abs != null)
-        {
-            abilities.AddRange(abs);
-            foreach (var ab in abs)
-            {
-                ab.Init(this);
-            }
+        set { 
+            base.pos = value;
+            var sprR = GetSpriteRenderer();
+            if (sprR != null)
+                sprR.sortingOrder = (int)(-value.y * 100f);
         }
     }
 
-    public virtual void Reset()
+    protected virtual SpriteRenderer GetSpriteRenderer() => null;
+
+    private void Awake() 
     {
-        if (abilities != null)
+        willDestory = false;
+        sEntity.Register(this);
+        name = $"{name}_{uid}";
+        OnCreate();
+
+        InitBuff();
+    }
+
+    public void DestroySelf()
+    {
+        if (willDestory)
         {
-            foreach (var ab in abilities)
-            {
-                ab.Reset();
-            }
+            Debug.LogError($"{dbgName} had destoryed");
+            return;
         }
+
+        OnDestroySelf();
+        sEntity.Unregister(this);
+        willDestory = true;
+        gameObject.SetActive(false);
+        Destroy(gameObject, 0.1f);
     }
 
-    public void Kill()
+    private void Update() 
     {
-        Destroy(gameObject);
-    }
-
-    public virtual void Tick(float dt)
-    {
-        if (!isActive)
+        if (willDestory)
             return;
 
-        TickAbilities(dt);
+        if (game.world.state != World.State.Running)
+            return;
+
+        float dt = Time.deltaTime;
+        TickAction(dt);
+        TickBuff(dt);
+
+        OnTick(dt);
     }
 
-    protected void TickAbilities(float dt)
+    protected virtual void OnCreate() {}
+    protected virtual void OnDestroySelf() {}
+    protected virtual void OnTick(float dt) {}
+
+    public float GetDist(Entity other)
     {
-        if (abilities != null)
+        if (other == null || other == this)
+            return 0f;
+
+        var dist = (other.pos - pos).SetZ(0f).magnitude;
+        return dist;
+    }
+
+    public float GetSqrDist(Entity other)
+    {
+        if (other == null || other == this)
+            return 0f;
+
+        var dist = (other.pos - pos).SetZ(0f).sqrMagnitude;
+        return dist;
+    }
+
+#region Action
+    public bool dbgAction;
+    public List<GAction> actions = new List<GAction>();
+    public GAction curAction;
+
+    public void TickAction(float dt)
+    {
+        if (curAction != null)
         {
-            foreach (var ab in abilities)
-                ab.Tick(dt);
+            var ret = curAction.Execute(dt);
+            if (ret != GActionResult.Running)
+            {
+                FinishAction();
+            }
+        }
+
+        if (curAction == null)
+        {
+            StartAction();
         }
     }
 
-    public T GetAbility<T>(bool log = true) where T : EntityAbility
+    public void StartAction()
     {
-        var ab = gameObject.GetComponent<T>();
-        if (ab == null && log)
-            Debug.Log($"{name} cant get ability > {typeof(T)}");
-        return ab;
+        if (actions.Count == 0)
+            return;
+
+        curAction = actions[0];
+
+        if (dbgAction)
+            Debug.Log($"{name} start action > {curAction}");
+
+        actions.RemoveAt(0);
+        curAction.Bind(this);
+        curAction.Start();
     }
 
-    public T AddAbility<T>() where T : EntityAbility
+    public void SetNextAction(GAction action)
     {
-        var ab = gameObject.GetOrAddComponent<T>();
-        ab.Init(this);
-        return ab;
+        if (dbgAction)
+            Debug.Log($"{name} set next action > {action}");
+        if (curAction != null)
+            FinishAction();
+
+        actions.Insert(0, action);
+        StartAction();
     }
 
-    private Collider[] colliders = null;
-    public Collider[] GetColliders(bool force = false)
+    public void QueueAction(GAction action)
     {
-        if (colliders == null || force)
-            colliders = GetComponentsInChildren<Collider>();
-        return colliders;
+        if (action == null)
+        {
+            Debug.LogError("failed queue null action");
+            return;
+        }
+        if (dbgAction)
+            Debug.Log($"{name} queue action > {action}");
+        actions.Add(action);
     }
+
+    public void FinishAction()
+    {
+        if (curAction == null)
+        {
+            if (dbgAction)
+                Debug.Log($"{name} finish action > none");
+            return;
+        }
+
+        // 这种写法是防止在 finish 的回调中设置新 action
+        // 又调用 finish
+        var action = curAction;
+        curAction = null;
+        if (action != null)
+        {
+            if (dbgAction)
+                Debug.Log($"{name} finish action > {action}");
+            action.End();
+        }
+    }
+
+    public bool IsAction<T>() where T : GAction
+    {
+        return curAction != null && curAction is T;
+    }
+
+    public void StopAndClearAllAction()
+    {
+        FinishAction();
+        actions.Clear();
+    }
+
+    public bool HasAnyActions()
+    {
+        return curAction != null || actions.Count > 0;
+    }
+#endregion
 }

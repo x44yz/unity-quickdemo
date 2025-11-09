@@ -104,6 +104,20 @@ public static class RandUtils
         return new Vector3(Rand(-x * 0.5f, x * 0.5f), 0f, Rand(-z * 0.5f, z * 0.5f));
     }
 
+    public static Vector3 RandRadiusAroundZ(float radius)
+    {
+        return RandRadiusAroundZ(radius, radius);
+    }
+
+    public static Vector3 RandRadiusAroundZ(float minRadius, float maxRadius)
+    {
+        // return RandPos(Vector3.zero, minRadius, maxRadius, Vector3.forward, 360f);
+        float dist = Rand(minRadius, maxRadius);
+        float rot = Rand(360f);
+        var dir = Quaternion.AngleAxis(rot, Vector3.forward) * Vector3.up;
+        return dir.normalized * dist;
+    }
+
     public static Vector3 RandPos(Vector3 pt, float range)
     {
         return RandPos(pt, 0f, range);

@@ -101,7 +101,7 @@ public static partial class Utils
         return Mathf.Approximately(v, 0f);
     }
 
-    public static bool IsEqual(float v1, float v2)
+    public static bool IsEqual(this float v1, float v2)
     {
         return IsZero(v1 - v2);
     }

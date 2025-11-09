@@ -26,11 +26,4 @@ public class ActorContext : MonoBehaviour, AI.Utility.IContext
     {
         return actor.name;
     }
-    
-    public float GetStatNOR(Stat s)
-    {
-        var v = actor.stat.GetStat(s);
-        var max = actor.stat.GetStatMax(s);
-        return Mathf.Clamp01(v / max);
-    }
 }

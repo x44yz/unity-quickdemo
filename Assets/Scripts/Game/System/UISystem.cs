@@ -7,26 +7,23 @@ using System;
 public class UISystem : MonoBehaviour
 {
     public Canvas uiRoot;
-    // TODO: 采用 prb 会加载  
-    // public string hudAddr;
-    // public string pageMainAddr;
-    // public string pageUpgradeAddr;
-    // public string dialogAddr;
-    // public string pageDefeatAddr;
 
-    // [Header("RUNTIME")]
     private Dictionary<Type, GUIWidget> openedPages;
 
-    // public PageHUD hud => GetPage<PageHUD>();
-    // public PageMain pageMain => GetPage<PageMain>();
-    // public PageUpgrade pageUpgrade => GetPage<PageUpgrade>();
-    // public PageDialog dialog => GetPage<PageDialog>();
-    // public PageDefeat pageDefeat => GetPage<PageDefeat>();
-    // public PageSkillSelect pageSkillSelect => GetPage<PageSkillSelect>();
+    public PageHUD hud => GetPage<PageHUD>();
 
     public void Init()
     {
         openedPages = new Dictionary<Type, GUIWidget>();
+        var pages = GameObject.FindObjectsOfType<GUIPage>(true);
+        if (pages != null && pages.Length > 0)
+        {
+            foreach (var p in pages)
+            {
+                p.Init();
+                openedPages[p.GetType()] = p;
+            }
+        }
     }
 
     public T GetPage<T>() where T : GUIWidget
@@ -73,5 +70,11 @@ public class UISystem : MonoBehaviour
         var page = GetPage<T>();
         if (page != null)
             page.Hide();
+    }
+
+    public void CloseAllPages()
+    {
+        foreach (var kv in openedPages)
+            kv.Value.Hide();
     }
 }
