@@ -370,5 +370,85 @@ namespace NaughtyAttributes.Editor
 
             return enumerator.Current;
         }
+    
+        public static string GetSerializedPropertyValueAsString(SerializedProperty property)
+        {
+            if (property == null) return "null";
+            
+            switch (property.propertyType)
+            {
+                case SerializedPropertyType.Integer:
+                    return property.intValue.ToString();
+                
+                case SerializedPropertyType.Boolean:
+                    return property.boolValue.ToString();
+                
+                case SerializedPropertyType.Float:
+                    return property.floatValue.ToString();
+                
+                case SerializedPropertyType.String:
+                    return property.stringValue;
+                
+                case SerializedPropertyType.Color:
+                    return property.colorValue.ToString();
+                
+                case SerializedPropertyType.ObjectReference:
+                    return property.objectReferenceValue != null ? 
+                        property.objectReferenceValue.name : "null";
+                
+                case SerializedPropertyType.LayerMask:
+                    return property.intValue.ToString();
+                
+                case SerializedPropertyType.Enum:
+                    return property.enumValueIndex >= 0 && property.enumNames != null && 
+                        property.enumValueIndex < property.enumNames.Length ? 
+                        property.enumNames[property.enumValueIndex] : "Invalid Enum";
+                
+                case SerializedPropertyType.Vector2:
+                    return property.vector2Value.ToString();
+                
+                case SerializedPropertyType.Vector3:
+                    return property.vector3Value.ToString();
+                
+                case SerializedPropertyType.Vector4:
+                    return property.vector4Value.ToString();
+                
+                case SerializedPropertyType.Rect:
+                    return property.rectValue.ToString();
+                
+                case SerializedPropertyType.ArraySize:
+                    return property.arraySize.ToString();
+                
+                case SerializedPropertyType.Character:
+                    return ((char)property.intValue).ToString();
+                
+                case SerializedPropertyType.AnimationCurve:
+                    return property.animationCurveValue != null ? 
+                        "AnimationCurve" : "null";
+                
+                case SerializedPropertyType.Bounds:
+                    return property.boundsValue.ToString();
+                
+                case SerializedPropertyType.Gradient:
+                    return "Gradient"; // Gradient 没有直接的 value 属性
+                
+                case SerializedPropertyType.Quaternion:
+                    return property.quaternionValue.ToString();
+                
+                case SerializedPropertyType.Generic:
+                case SerializedPropertyType.ExposedReference:
+                case SerializedPropertyType.FixedBufferSize:
+                case SerializedPropertyType.Vector2Int:
+                case SerializedPropertyType.Vector3Int:
+                case SerializedPropertyType.RectInt:
+                case SerializedPropertyType.BoundsInt:
+                case SerializedPropertyType.ManagedReference:
+                    // 对于复杂类型，返回类型名称
+                    return $"[{property.propertyType}]";
+                
+                default:
+                    return $"Unknown Type: {property.propertyType}";
+            }
+        }
     }
 }
