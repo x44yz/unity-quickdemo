@@ -62,7 +62,8 @@ public static class UIUtils
         for (int i = 0; i < wgtCount; ++i)
         {
             var child = tmp.transform.parent.GetChild(i + 1).gameObject;
-            if (child.gameObject.activeSelf == false)
+            if (child.gameObject.activeSelf == false &&
+                child.GetComponent<T>() != null)
             {
                 obj = child;
                 break;

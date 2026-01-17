@@ -197,4 +197,31 @@ public static partial class Utils
         return compositeBounds;
     }
 
+    public static void ResetTransformation(this Transform trans)
+    {
+        trans.position = Vector3.zero;
+        trans.localRotation = Quaternion.identity;
+        trans.localScale = new Vector3(1, 1, 1);
+    }
+
+    public static Vector3 ScreenPosToWorldPos(this Vector2 screenPos, Camera camera = null, float zDepth = 10f)
+    {
+
+        if (camera == null)
+            camera = Camera.main;
+
+        if (camera == null)
+            return Vector2.zero;
+
+        float xPos = screenPos.x;
+        float yPos = screenPos.y;
+        Vector3 worldPos = Vector3.zero;
+
+        if (!float.IsNaN(screenPos.x) && !float.IsNaN(screenPos.y) && !float.IsInfinity(screenPos.x) && !float.IsInfinity(screenPos.y))
+        {
+            Vector3 screenCoord = new Vector3(xPos, yPos, zDepth);
+            worldPos = camera.ScreenToWorldPoint(screenCoord);
+        }
+        return worldPos;
+    }
 }

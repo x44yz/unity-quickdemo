@@ -10,9 +10,9 @@ namespace AI.FSM
         public State from;
         public State to;
         protected Func<bool> condition;
-        protected Action onTransition;
+        protected System.Action onTransition;
 
-        public Transition(State from, State to, Func<bool> condition, Action onTransition = null)
+        public Transition(State from, State to, Func<bool> condition, System.Action onTransition = null)
         {
             this.from = from;
             this.to = to;

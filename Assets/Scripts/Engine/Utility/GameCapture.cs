@@ -1,14 +1,12 @@
+#if UNITY_EDITOR
 using System;
 using System.IO;
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 
 [AddComponentMenu("Tools/GameCapture")]
 public class GameCapture : MonoBehaviour
 {
-#if UNITY_EDITOR
     private const string PREFKEY_AUTOCAPTURE_LASTTIME = "AutoCaptureLastTime";
 
     public bool autoCapture = true;
@@ -74,10 +72,8 @@ public class GameCapture : MonoBehaviour
             EditorPrefs.SetInt(atuoCaptureStoreKey, ((int)Utils.GetTimeStamp()));
         }
     }
-#endif
 }
 
-#if UNITY_EDITOR
 public class GameCaptureEditor
 {
     // % - CTRL on Windows / CMD on OSX

@@ -1,15 +1,12 @@
+#if UNITY_EDITOR
 using System;
 using System.IO;
 using UnityEngine;
 using UnityEditor.Recorder;
-
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 
 public class GameRecorder : MonoBehaviour
 {
-#if UNITY_EDITOR
     private const string PREFKEY_AUTORECORD_TIME = "AutoRecordTime";
 
     public bool autoRecord = true;
@@ -65,5 +62,5 @@ public class GameRecorder : MonoBehaviour
             editorWindow.Close();
         }
     }
-#endif
 }
+#endif

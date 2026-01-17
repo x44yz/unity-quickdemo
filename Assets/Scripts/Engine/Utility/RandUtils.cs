@@ -106,7 +106,7 @@ public static class RandUtils
 
     public static Vector3 RandRadiusAroundZ(float radius)
     {
-        return RandRadiusAroundZ(radius, radius);
+        return RandRadiusAroundZ(0f, radius);
     }
 
     public static Vector3 RandRadiusAroundZ(float minRadius, float maxRadius)
